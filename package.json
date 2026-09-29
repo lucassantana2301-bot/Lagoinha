@@ -4,7 +4,11 @@
   "description": "Protótipo de monitoramento inteligente de estacionamento para a Igreja Lagoinha Alphaville",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node tests/regression.cjs && node tests/security.cjs && node tests/antigravity/parking-polish.test.cjs"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "keywords": ["parking-monitoring", "opencv", "computer-vision", "lagoinha-alphaville", "ai-prototype"],
   "author": "Lagoinha Tech & Voluntários",
