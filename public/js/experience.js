@@ -81,7 +81,18 @@
     });
   }
 
+  // A headline do hero só sobe com a fonte final carregada: com display=swap ela
+  // trocava de fonte no meio da entrada e mudava de largura (salto visível).
+  function initFontGate() {
+    var root = document.documentElement;
+    function ready() { root.classList.add('fonts-ready'); }
+    if (!document.fonts || !document.fonts.ready) return ready();
+    document.fonts.ready.then(ready);
+    window.setTimeout(ready, 1500);
+  }
+
   function init() {
+    initFontGate();
     initSilence();
     initImageFade();
   }

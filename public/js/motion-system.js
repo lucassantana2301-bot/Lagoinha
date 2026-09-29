@@ -100,6 +100,10 @@
      primeiro título de cada seção) — sem dividir texto em spans, só troca
      a transição de "fade simples" por "máscara + blur→foco" (seção 06). */
   function initKineticTypography() {
+    // O estado oculto precisa existir antes de criar os spans: splitWords lê estilos
+    // (getComputedStyle), e sem isso as palavras nasciam visíveis e só depois
+    // "transicionavam" para ocultas — a headline aparecia sem a subida.
+    if (!reduceMotion) document.documentElement.classList.add('js-reveal');
     var titles = [];
     var heroHeadline = document.querySelector('.hero-headline');
     if (heroHeadline) {
@@ -194,21 +198,35 @@
 
     var ticking = false;
 
+    var progressBar = document.getElementById('scrollProgressBar');
+    var lastHeroExit = '';
+    var lastChapter;
+
+    // Todas as leituras de layout acontecem antes de qualquer escrita: intercalar
+    // as duas forçava estilo+layout síncronos a cada quadro de scroll.
     function update() {
       ticking = false;
       var doc = document.documentElement;
+      var vh = window.innerHeight;
       var scrollY = window.scrollY || doc.scrollTop;
-      var maxScroll = (doc.scrollHeight - window.innerHeight) || 1;
+      var maxScroll = (doc.scrollHeight - vh) || 1;
       var progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+      var heroHeight = hero ? hero.offsetHeight || 1 : 1;
+      var chapterTops = chapters.map(function (entry) { return entry.target.getBoundingClientRect().top; });
+      var driftPhotos = !reduceMotion && window.innerWidth > 900;
+      var rects = driftPhotos ? photos.map(function (photo) { return photo.parentElement.getBoundingClientRect(); }) : [];
+      var navTops = navTargets.map(function (entry) { return entry.target.offsetTop; });
+      var focusInHeader = header && header.contains(document.activeElement);
 
-      doc.style.setProperty('--scroll-progress', progress.toFixed(4));
+      // A variável fica só na barra que a usa: no <html> ela invalidava o estilo da página inteira.
+      if (progressBar) progressBar.style.setProperty('--scroll-progress', progress.toFixed(4));
 
       if (header) {
         header.classList.toggle('scrolled', scrollY > 40);
         // Recolhe ao descer e volta ao subir; nunca com foco dentro nem fora do portal.
         var portalActive = portal && portal.classList.contains('active');
         var delta = scrollY - lastY;
-        if (!portalActive || scrollY < 200 || header.contains(document.activeElement)) header.classList.remove('is-hidden');
+        if (!portalActive || scrollY < 200 || focusInHeader) header.classList.remove('is-hidden');
         else if (delta > 8) header.classList.add('is-hidden');
         else if (delta < -8) header.classList.remove('is-hidden');
         lastY = scrollY;
@@ -216,35 +234,35 @@
 
       // Saída do hero: 0 no topo, 1 quando o hero termina de sair da tela.
       if (hero && !reduceMotion) {
-        var heroExit = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight || 1)));
-        hero.style.setProperty('--hero-exit', heroExit.toFixed(4));
-      }
-      var currentChapter = null;
-      chapters.forEach(function (entry) {
-        if (entry.target.getBoundingClientRect().top <= window.innerHeight * 0.5) currentChapter = entry;
-      });
-      chapters.forEach(function (entry) {
-        if (entry === currentChapter) entry.link.setAttribute('aria-current', 'location');
-        else entry.link.removeAttribute('aria-current');
-      });
-      if (!reduceMotion && window.innerWidth > 900) {
-        // Todas as leituras antes das escritas, para não forçar layout a cada foto.
-        var rects = photos.map(function (photo) { return photo.parentElement.getBoundingClientRect(); });
-        photos.forEach(function (photo, i) {
-          var rect = rects[i];
-          if (!rect.height || rect.bottom < 0 || rect.top > window.innerHeight) return;
-          var distance = (window.innerHeight / 2 - rect.top - rect.height / 2) / window.innerHeight;
-          photo.style.setProperty('--photo-drift', (Math.max(-1, Math.min(1, distance)) * 24).toFixed(1) + 'px');
-        });
+        // Depois que o hero saiu da tela o valor fica parado em 1: sem escrita a cada quadro.
+        var heroExit = Math.min(1, Math.max(0, scrollY / heroHeight)).toFixed(4);
+        if (heroExit !== lastHeroExit) {
+          hero.style.setProperty('--hero-exit', heroExit);
+          lastHeroExit = heroExit;
+        }
       }
 
+      var currentChapter = null;
+      chapters.forEach(function (entry, i) { if (chapterTops[i] <= vh * 0.5) currentChapter = entry; });
+      if (currentChapter !== lastChapter) {
+        chapters.forEach(function (entry) {
+          if (entry === currentChapter) entry.link.setAttribute('aria-current', 'location');
+          else entry.link.removeAttribute('aria-current');
+        });
+        lastChapter = currentChapter;
+      }
+
+      photos.forEach(function (photo, i) {
+        var rect = rects[i];
+        if (!rect || !rect.height || rect.bottom < 0 || rect.top > vh) return;
+        var distance = (vh / 2 - rect.top - rect.height / 2) / vh;
+        photo.style.setProperty('--photo-drift', (Math.max(-1, Math.min(1, distance)) * 24).toFixed(1) + 'px');
+      });
 
       if (navTargets.length) {
-        var mid = scrollY + window.innerHeight * 0.45;
+        var mid = scrollY + vh * 0.45;
         var current = null;
-        navTargets.forEach(function (entry) {
-          if (entry.target.offsetTop <= mid) current = entry;
-        });
+        navTargets.forEach(function (entry, i) { if (navTops[i] <= mid) current = entry; });
         navTargets.forEach(function (entry) { entry.link.classList.toggle('active', entry === current); });
       }
     }

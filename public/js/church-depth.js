@@ -226,17 +226,32 @@
     var isSmall = window.matchMedia('(max-width: 760px)').matches;
     section.classList.add('is-scrubbed');
 
-    var renderer = null;
-    try {
-      renderer = createRenderer(canvas);
-    } catch (err) {
-      if (window.console) console.warn('[church-depth] WebGL indisponível, usando a foto:', err);
-    }
-
     // Celular começa no nível 1; desktop com 8+ núcleos no 2. O guarda abaixo corrige para baixo.
     var tier = isSmall ? 1 : ((navigator.hardwareConcurrency || 4) >= 8 ? 2 : 1);
-    var perf = { frames: 0, time: 0 };
-    if (renderer) renderer.setDpr(TIER_DPR[tier]);
+    var perf = { frames: 0, time: 0, skipUntil: 0 };
+
+    // O contexto WebGL e a compilação do shader são criados sob demanda (tempo ocioso
+    // ou proximidade), nunca durante a chegada: compilar ali engasgava as portas.
+    var renderer = null;
+    var webglTried = false;
+    function ensureRenderer() {
+      if (webglTried) return renderer;
+      webglTried = true;
+      try {
+        renderer = createRenderer(canvas);
+      } catch (err) {
+        if (window.console) console.warn('[church-depth] WebGL indisponível, usando a foto:', err);
+      }
+      if (!renderer) return null;
+      renderer.setDpr(TIER_DPR[tier]);
+      window.addEventListener('resize', function () { if (running && renderer) { renderer.resize(); lastDrawn = ''; } });
+      canvas.addEventListener('webglcontextlost', function (e) {
+        e.preventDefault();
+        renderer = null;
+        section.classList.remove('gl-ready');
+      });
+      return renderer;
+    }
 
     var state = { p: 0, target: 0, enter: 0, mx: 0, my: 0, tmx: 0, tmy: 0, phase: -1, last: 0 };
     var running = false;
@@ -245,13 +260,18 @@
     var start = performance.now();
 
     function loadTexture() {
-      if (!renderer || renderer.ready() || loadTexture.started) return;
+      if (loadTexture.started || !ensureRenderer()) return;
       loadTexture.started = true;
       var image = new Image();
       image.decoding = 'async';
       image.onload = function () {
+        if (!renderer) return;
         renderer.setImage(image);
         renderer.resize();
+        // Aquecimento: um desenho invisível (reveal 0) antes de a cena aparecer, para o
+        // driver finalizar o shader e subir a textura fora do primeiro quadro visível.
+        renderer.draw({ fit: 0, zoom: 1.04, dolly: 0, shiftX: 0, shiftY: 0, focus: 0.9, blur: 1.6, rays: 0.25,
+          light: 0, quality: tier, time: 0, dust: 0, reveal: 0 });
         section.classList.add('gl-ready');
         lastDrawn = '';
       };
@@ -270,7 +290,9 @@
     }
 
     function watchPerformance(dt) {
-      if (tier === 0 || !dt) return;
+      // Os primeiros quadros após entrar na cena (aquecimento, textura, scroll rápido)
+      // não contam: medidos, eles rebaixavam a qualidade em máquinas rápidas.
+      if (tier === 0 || !dt || performance.now() < perf.skipUntil) return;
       perf.frames += 1;
       perf.time += dt;
       // Decide rápido: 45 quadros ou 1,5 s, o que vier primeiro (em hardware lento, 90 quadros levariam segundos demais).
@@ -307,8 +329,12 @@
 
       // Antecipação: a primeira palavra só entra quando a cena já ocupa a tela.
       setPhase(state.enter < 0.85 ? -1 : p < PHASE_ENDS[0] ? 0 : p < PHASE_ENDS[1] ? 1 : p < PHASE_ENDS[2] ? 2 : 3);
-      section.style.setProperty('--scene-p', p.toFixed(4));
-      section.style.setProperty('--scene-release', smooth(0.9, 1, p).toFixed(4));
+      var sceneP = p.toFixed(4);
+      if (sceneP !== state.sceneP) {
+        section.style.setProperty('--scene-p', sceneP);
+        section.style.setProperty('--scene-release', smooth(0.9, 1, p).toFixed(4));
+        state.sceneP = sceneP;
+      }
 
       if (renderer && renderer.ready()) {
         // Respiração: só onde já existe loop contínuo (desktop); no celular a cena para quando o scroll para.
@@ -344,6 +370,9 @@
       if (running) return;
       running = true;
       state.last = 0;
+      perf.frames = 0;
+      perf.time = 0;
+      perf.skipUntil = performance.now() + 900;
       if (renderer) renderer.resize();
       rafId = window.requestAnimationFrame(frame);
     }
@@ -353,22 +382,26 @@
       rafId = 0;
     }
 
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) { if (entry.isIntersecting) loadTexture(); });
-    }, { rootMargin: '150% 0px' }).observe(section);
+    // Preparar o WebGL no tempo ocioso depois da chegada (as portas duram ~3 s), fora da
+    // animação e fora da primeira rolagem. Se a pessoa entrar antes, a foto cobre até ficar pronto.
+    window.addEventListener('load', function () {
+      window.setTimeout(function () {
+        (window.requestIdleCallback || function (cb) { return window.setTimeout(cb, 0); })(loadTexture, { timeout: 2000 });
+      }, 3200);
+    }, { once: true });
 
+    // Margem de -2px: a cena começa colada à borda da tela e "encostar" não pode contar
+    // como visível — senão o shader rodava a 60 fps com o hero parado.
     new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) { entry.isIntersecting ? startLoop() : stopLoop(); });
-    }).observe(section);
-
-    if (renderer) {
-      window.addEventListener('resize', function () { if (running) { renderer.resize(); lastDrawn = ''; } });
-      canvas.addEventListener('webglcontextlost', function (e) {
-        e.preventDefault();
-        renderer = null;
-        section.classList.remove('gl-ready');
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          loadTexture();
+          startLoop();
+        } else {
+          stopLoop();
+        }
       });
-    }
+    }, { rootMargin: '-2px 0px -2px 0px' }).observe(section);
 
     if (canHover) {
       section.addEventListener('pointermove', function (e) {

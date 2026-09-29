@@ -179,7 +179,8 @@
   transition-delay: calc(var(--hero-delay) + var(--stagger-index, 0) * 130ms);
 }
 .js-reveal .hero-cinematic .reveal:not(.is-visible) { transform: translate3d(0, 28px, 0); }
-.js-reveal .hero-cinematic .kinetic-line:not(.is-visible) .kw-i { transform: translate3d(0, 110%, 0) rotate(5deg); }
+.js-reveal .hero-cinematic .kinetic-line:not(.is-visible) .kw-i,
+.js-reveal:not(.fonts-ready) .hero-cinematic .kinetic-line .kw-i { transform: translate3d(0, 110%, 0) rotate(5deg); }
 .js-reveal .hero-cinematic .kinetic-line .kw-i {
   transition-duration: 1400ms;
   transition-delay: calc(var(--hero-delay) + 150ms + var(--w, 0) * 140ms);
