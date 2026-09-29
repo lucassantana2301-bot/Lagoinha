@@ -76,7 +76,7 @@
     document.removeEventListener('keydown', onKeydown, true);
     window.setTimeout(function () {
       overlay.hidden = true;
-      imgEl.src = '';
+      imgEl.removeAttribute('src'); // src="" faria o navegador requisitar a própria página
     }, 250);
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }

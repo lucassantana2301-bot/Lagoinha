@@ -88,7 +88,7 @@ Para solicitar os arquivos à equipe de comunicação (`@lagoinhaalphaville.sp` 
 ## Atualização: uso autorizado pelo usuário — 26/09/2026
 O usuário confirmou nesta conversa que tem autorização da igreja para utilizar as fotos do site oficial. As quatro imagens da seção 1.1 foram incorporadas sem alteração de seus bytes em public/assets/official/. As pendências anteriores de autorização dessas quatro imagens estão resolvidas.
 - church.jpg: pessoas durante culto, 1000×563; abertura. Não é fotografia da fachada.
-- group.jpg: celebração coletiva, 1440×1080; participação. Não comprova um encontro de GC residencial.
+- group.webp: celebração coletiva, 1440×1080 (convertida do JPEG oficial); participação. Não comprova um encontro de GC residencial.
 - baptism.webp: batismo, 328×455; mantida em dimensão compatível com sua resolução.
-- volunteers.jpg: oração coletiva, 2048×1536; seção de voluntariado, sem afirmar função específica das pessoas.
+- volunteers.webp: oração coletiva, 1600×1200 (reduzida do JPEG oficial de 2048×1536); seção de voluntariado, sem afirmar função específica das pessoas.
 Fotógrafos e datas não informados na fonte consultada; crédito ao site de origem, sem inventar autoria. Fotos específicas de fachada, estacionamento real e Kids continuam pendentes.

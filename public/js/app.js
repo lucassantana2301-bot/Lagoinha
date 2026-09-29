@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const producerId = crypto.randomUUID();
   let detectorConnected = false;
   let lastServerContact = 0;
+  let serverStaleRendered = false;
   let fetching = false;
   let zonesLoaded = false;
 
@@ -162,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setExperience(exp) {
     const isParking = exp === 'parking';
+    simulator.visible = isParking;
     if (viewPortal && viewPortal.classList && viewPortal.classList.toggle) viewPortal.classList.toggle('active', !isParking);
     if (viewParking && viewParking.classList && viewParking.classList.toggle) viewParking.classList.toggle('active', isParking);
     if (btnNavPortal && btnNavPortal.classList && btnNavPortal.classList.toggle) btnNavPortal.classList.toggle('active', !isParking);
@@ -247,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 1. Render Polygons and bounding boxes overlay on canvas
-    polygonEditor.render(detections);
+    if (simulator.visible) polygonEditor.render(detections);
 
     // 2. Run Spatial Analysis
     const analyzedSectors = simulator.activeSource === 'local_video'
@@ -255,7 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
       : analyzer.analyze(zones, detections, videoState);
 
     // If server contact lost > 5s, invalidate states
-    if (Date.now() - lastServerContact > 5000) {
+    // (renderiza só na transição para "sem contato", não a cada quadro)
+    const serverStale = Date.now() - lastServerContact > 5000;
+    if (serverStale && !serverStaleRendered) {
       Object.values(systemState.sectors).forEach(state => {
         state.aiStatus = 'offline';
         state.humanOverride = null;
@@ -264,9 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSectorsOverview();
       renderVolunteerView();
     }
+    serverStaleRendered = serverStale;
 
-    // 3. Stale Frame & Watchdog Banner Check
-    if (simulator.isSignalLost) {
+    // 3. Stale Frame & Watchdog Banner Check (o banner é montado uma vez por perda de sinal)
+    if (simulator.isSignalLost && !staleBanner.classList.contains('active')) {
       staleBanner.classList.add('active');
       staleBanner.innerHTML = `
         <div style="display:flex; align-items:center; gap:0.65rem;">
@@ -286,14 +291,14 @@ document.addEventListener('DOMContentLoaded', () => {
           window.appleAudio?.playSuccess();
         };
       }
-    } else {
+    } else if (!simulator.isSignalLost) {
       staleBanner.classList.remove('active');
     }
 
     // 4. Update HUD Stats Overlay
-    const overlayFps = document.getElementById('overlayFps');
-    const overlayCars = document.getElementById('overlayCars');
-    const overlaySource = document.getElementById('overlaySource');
+    const overlayFps = simulator.visible && document.getElementById('overlayFps');
+    const overlayCars = simulator.visible && document.getElementById('overlayCars');
+    const overlaySource = simulator.visible && document.getElementById('overlaySource');
     if (overlayFps) overlayFps.textContent = `Taxa de atualização: ${simulator.fps} fps`;
     if (overlayCars) {
       overlayCars.textContent = simulator.activeSource === 'local_video' 

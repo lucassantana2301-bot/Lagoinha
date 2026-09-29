@@ -19,18 +19,13 @@ class ParkingSimulator {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    // Load High-Resolution Background Assets
-    this.cctvImage = new Image();
-    this.cctvImage.src = 'assets/cctv_lagoinha.jpg';
-    this.cctvLoaded = false;
-    this.cctvImage.onload = () => { this.cctvLoaded = true; };
-
-    this.satImage = new Image();
-    this.satImage.src = 'assets/satellite_lagoinha.jpg';
-    this.satLoaded = false;
-    this.satImage.onload = () => { this.satLoaded = true; };
+    // Fundos carregados só quando desenhados pela primeira vez: são 2,2 MB que o portal não usa.
+    // Mantidos em JPEG original para preservar o manifesto C2PA de procedência (ver IMAGE_SOURCES.md).
+    this.backgroundSources = { cctv_real: 'assets/cctv_lagoinha.jpg', satellite_real: 'assets/satellite_lagoinha.jpg' };
+    this.backgroundImages = {};
 
     // State & Modes
+    this.visible = true; // o app desliga o desenho do canvas enquanto o painel está oculto
     this.isRunning = true;
     this.isSignalLost = false;
     this.weatherCondition = 'clear'; // 'clear' | 'rain' | 'night'
@@ -323,10 +318,9 @@ class ParkingSimulator {
     }
 
     // 2. RENDER SELECTED BACKGROUND
-    if (this.activeSource === 'cctv_real' && this.cctvLoaded) {
-      ctx.drawImage(this.cctvImage, 0, 0, this.width, this.height);
-    } else if (this.activeSource === 'satellite_real' && this.satLoaded) {
-      ctx.drawImage(this.satImage, 0, 0, this.width, this.height);
+    const background = this.backgroundFor(this.activeSource);
+    if (background) {
+      ctx.drawImage(background, 0, 0, this.width, this.height);
     } else if (this.activeSource === 'local_video' && this.localVideoElement && !this.localVideoElement.paused) {
       try {
         ctx.drawImage(this.localVideoElement, 0, 0, this.width, this.height);
@@ -571,9 +565,21 @@ class ParkingSimulator {
     return [];
   }
 
+  backgroundFor(source) {
+    const src = this.backgroundSources[source];
+    if (!src) return null;
+    if (!this.backgroundImages[source]) {
+      const image = new Image();
+      image.src = src;
+      this.backgroundImages[source] = image;
+    }
+    const image = this.backgroundImages[source];
+    return image.complete && image.naturalWidth ? image : null;
+  }
+
   animate(timestamp) {
     this.updateSimulation();
-    this.render();
+    if (this.visible) this.render();
 
     this.frameCount++;
     if (timestamp - this.fpsTimer >= 1000) {
