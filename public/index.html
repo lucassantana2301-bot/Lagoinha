@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/motion-system.css">
   <link rel="stylesheet" href="css/dark-premium.css">
+  <link rel="stylesheet" href="css/experience.css">
 </head>
 <body>
   <a class="skip-link" href="#portal">Pular para o conteúdo</a>
@@ -25,35 +26,9 @@
        ======================================================================== -->
   <div id="bgSystem" aria-hidden="true">
     <div class="bg-mesh"></div>
-    <div class="bg-grid"></div>
     <div class="bg-blob bg-blob-1"></div>
     <div class="bg-blob bg-blob-2"></div>
     <div class="bg-blob bg-blob-3"></div>
-    <svg class="bg-connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="bgsysLineGradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="var(--bgsys-blue)" stop-opacity="0.6"/>
-          <stop offset="50%" stop-color="var(--bgsys-violet)" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="var(--bgsys-gold)" stop-opacity="0.5"/>
-        </linearGradient>
-      </defs>
-      <path class="bgsys-line" d="M80,120 L340,60 L560,180 L820,90 L1100,150"/>
-      <path class="bgsys-line" d="M60,420 L280,500 L520,430 L760,540 L1020,470"/>
-      <path class="bgsys-line" d="M180,680 L420,620 L680,700 L940,640 L1160,690"/>
-      <circle class="bgsys-node" cx="80" cy="120" r="3"/>
-      <circle class="bgsys-node" cx="340" cy="60" r="2.4"/>
-      <circle class="bgsys-node" cx="560" cy="180" r="3.4"/>
-      <circle class="bgsys-node" cx="820" cy="90" r="2.4"/>
-      <circle class="bgsys-node" cx="1100" cy="150" r="3"/>
-      <circle class="bgsys-node" cx="60" cy="420" r="2.6"/>
-      <circle class="bgsys-node" cx="280" cy="500" r="3.2"/>
-      <circle class="bgsys-node" cx="520" cy="430" r="2.4"/>
-      <circle class="bgsys-node" cx="760" cy="540" r="3"/>
-      <circle class="bgsys-node" cx="1020" cy="470" r="2.6"/>
-      <circle class="bgsys-node" cx="180" cy="680" r="2.8"/>
-      <circle class="bgsys-node" cx="680" cy="700" r="3.2"/>
-      <circle class="bgsys-node" cx="1160" cy="690" r="2.4"/>
-    </svg>
     <div class="bg-vignette"></div>
     <div class="bg-noise"></div>
   </div>
@@ -98,32 +73,35 @@
        ======================================================================== -->
   <div id="viewPortal" class="view-experience active">
 
-    <!-- A. HERO: SUA CHEGADA IMPORTA -->
-    <section class="portal-hero" id="portal">
-      <div class="portal-hero-inner">
-        <div class="hero-content-col">
-          
-          <!-- Live Radar Event Pill -->
+    <!-- A. HERO: SUA CHEGADA IMPORTA — fullscreen, foto sangrada -->
+    <section class="portal-hero hero-cinematic" id="portal">
+      <div class="hero-media">
+        <img class="hero-media-img" src="assets/official/group.webp" alt="Comunidade reunida em celebração na Lagoinha Alphaville" width="1440" height="1080" fetchpriority="high" decoding="async">
+        <div class="hero-media-grade" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="hero-topline">
           <a href="#cultos" class="hero-live-radar reveal" style="--stagger-index:0;">
             <span class="radar-beacon"></span>
             <span class="radar-badge">Ao Vivo & Domingo</span>
             <span class="radar-text">Celebração da Família • <strong>10h & 18h</strong></span>
           </a>
-
           <div class="hero-tag reveal" style="--stagger-index:1;">
-            <img src="assets/lagoinha_official_emblem.svg" alt="Emblema Lagoinha" width="22" height="22" style="display:block;">
+            <img src="assets/lagoinha_official_emblem.svg" alt="" width="22" height="22" style="display:block;">
             <span>Lagoinha Alphaville • Av. Tamboré, 74</span>
           </div>
+        </div>
 
-          <h1 class="hero-headline reveal" style="--stagger-index:2;">
-            <span class="hero-gradient-text">Sua chegada</span><br>importa.
-          </h1>
+        <h1 class="hero-headline reveal" style="--stagger-index:2;">
+          <span class="hero-gradient-text">Sua chegada</span><br>importa<span class="dot">.</span>
+        </h1>
 
-          <p class="hero-subheadline reveal" style="--stagger-index:3;">
+        <div class="hero-bottom">
+          <p class="hero-subheadline reveal" style="--stagger-index:4;">
             Conheça a comunidade, planeje sua visita e descubra como participar. Um lugar de acolhimento, fé e novos começos em Alphaville.
           </p>
-
-          <div class="hero-actions-row reveal" style="--stagger-index:4;">
+          <div class="hero-actions-row reveal" style="--stagger-index:5;">
             <a href="#visita" class="btn btn-primary">
               <span>Planejar minha visita</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -136,12 +114,34 @@
             </a>
           </div>
         </div>
+      </div>
 
-        <div class="hero-image-col">
-          <div class="hero-media-card reveal" style="--stagger-index:3;">
-            <figure class="official-photo official-hero"><button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/church.jpg" data-lightbox-caption="Fé vivida em comunidade. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Pessoas com as mãos erguidas durante um culto"><img src="assets/official/church.jpg" alt="Pessoas com as mãos erguidas durante um culto" width="1000" height="563" fetchpriority="high" decoding="async"></button><figcaption>Fé vivida em comunidade. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto do site oficial ↗</a></figcaption></figure>
-          </div>
+      <a class="hero-scroll-cue reveal" style="--stagger-index:6;" href="#igreja">
+        <span>Role para entrar</span>
+        <i aria-hidden="true"></i>
+      </a>
+      <p class="hero-credit">Celebrar e caminhar juntos. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto do site oficial ↗</a></p>
+    </section>
+
+    <!-- A2. A IGREJA EM PROFUNDIDADE — cena WebGL guiada pelo scroll (js/church-depth.js).
+         Para trocar a foto (ex.: fachada oficial), altere apenas o src de .church-fallback. -->
+    <section class="church-scene" id="igreja" aria-labelledby="churchSceneTitle">
+      <div class="church-sticky">
+        <div class="church-stage">
+          <img class="church-fallback" src="assets/official/church.jpg" alt="Pessoas com as mãos erguidas durante um culto na Lagoinha Alphaville" width="1000" height="563" loading="lazy" decoding="async">
+          <canvas class="church-canvas" aria-hidden="true"></canvas>
+          <div class="church-grade" aria-hidden="true"></div>
         </div>
+        <p class="church-words">
+          <span class="church-word" data-phase="0">Fé<span class="dot">.</span></span>
+          <span class="church-word" data-phase="1">Comunidade<span class="dot">.</span></span>
+          <span class="church-word" data-phase="2">Propósito<span class="dot">.</span></span>
+        </p>
+        <div class="church-moment" data-phase="3">
+          <h2 class="church-title" id="churchSceneTitle">Fé vivida<br>em comunidade<span class="dot">.</span></h2>
+          <p class="church-meta">Lagoinha Alphaville · Av. Tamboré, 74 · <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto do site oficial ↗</a></p>
+        </div>
+        <div class="church-progress" aria-hidden="true"><i></i></div>
       </div>
     </section>
     
@@ -181,45 +181,6 @@
       </div>
     </div>
 
-    <!-- KINETIC KEYNOTE STATS MATRIX BAND -->
-    <div class="keynote-stats-band reveal-stagger" aria-label="Métricas e Impacto da Comunidade">
-      <div class="keynote-stat-card border-beam-card">
-        <div class="stat-sparkle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFE140"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg>
-        </div>
-        <div class="stat-number-row">
-          <span class="stat-number" data-counter-target="120" data-counter-prefix="+" data-counter-suffix="k">+120k</span>
-        </div>
-        <div class="stat-label">Pessoas conectadas em comunidade na Rede Lagoinha</div>
-      </div>
-      <div class="keynote-stat-card">
-        <div class="stat-sparkle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFE140"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        </div>
-        <div class="stat-number-row">
-          <span class="stat-number" data-counter-target="600" data-counter-prefix="+" data-counter-suffix="">+600</span>
-        </div>
-        <div class="stat-label">Igrejas plantadas no Brasil e no mundo</div>
-      </div>
-      <div class="keynote-stat-card">
-        <div class="stat-sparkle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#30D158"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        </div>
-        <div class="stat-number-row">
-          <span class="stat-number" data-counter-target="100" data-counter-prefix="" data-counter-suffix="%">100%</span>
-        </div>
-        <div class="stat-label">Acolhimento com voluntários dedicados no pátio</div>
-      </div>
-      <div class="keynote-stat-card">
-        <div class="stat-sparkle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#AF52DE"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        </div>
-        <div class="stat-number-row">
-          <span class="stat-number" data-counter-target="14" data-counter-prefix="+" data-counter-suffix="">+14</span>
-        </div>
-        <div class="stat-label">Grupos de Crescimento e ministérios ativos em Alphaville</div>
-      </div>
-    </div>
 
     <!-- B. SUA PRIMEIRA VISITA, COM TRANQUILIDADE -->
     <section class="portal-section" id="visita">
@@ -466,12 +427,6 @@
               </div>
             </div>
             <div class="bento-gc-media">
-              <figure class="official-photo">
-                <button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/group.webp" data-lightbox-caption="Celebrar e caminhar juntos. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Comunidade reunida em celebração">
-                  <img src="assets/official/group.webp" alt="Comunidade reunida em celebração" width="1440" height="1080" loading="lazy" decoding="async">
-                </button>
-                <figcaption>Celebrar e caminhar juntos. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto oficial ↗</a></figcaption>
-              </figure>
               <div class="bento-gc-info-strip">
                 <div class="bento-info-box">
                   <strong>Encontros Semanais</strong>
@@ -1169,5 +1124,6 @@
 <script src="js/parking-polish.js"></script>
 <script src="js/motion-system.js"></script>
 <script src="js/next-service.js"></script>
+<script src="js/church-depth.js"></script>
 </body>
 </html>

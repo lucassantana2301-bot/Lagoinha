@@ -85,8 +85,7 @@ html { scrollbar-color: rgba(255,225,64,0.3) transparent; scrollbar-width: thin;
 [data-theme="dark"] .schedule-card,
 [data-theme="dark"] .verified-action-card,
 [data-theme="dark"] .kpi-card,
-[data-theme="dark"] .content-card,
-[data-theme="dark"] .keynote-stat-card {
+[data-theme="dark"] .content-card {
   background: rgba(14,14,22,0.88) !important;
   border: 1px solid rgba(255,225,64,0.14) !important;
   backdrop-filter: blur(20px) !important;
@@ -109,15 +108,6 @@ html { scrollbar-color: rgba(255,225,64,0.3) transparent; scrollbar-width: thin;
   text-shadow: 0 0 10px rgba(255,225,64,0.35) !important;
 }
 
-/* ── STAT NUMBERS ────────────────────────────── */
-[data-theme="dark"] .stat-number,
-[data-theme="dark"] .stat-number .stat-val-inner {
-  background: linear-gradient(135deg, #FFF 15%, #FFEB80 50%, #FFE140 80%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  display: inline-block !important;
-}
 
 /* ── STEP NUMBERS ────────────────────────────── */
 [data-theme="dark"] .step-number {
@@ -170,11 +160,6 @@ html { scrollbar-color: rgba(255,225,64,0.3) transparent; scrollbar-width: thin;
   box-shadow: 0 0 10px rgba(255,225,64,0.7), 0 0 20px rgba(255,225,64,0.35) !important;
 }
 
-/* ── HERO MEDIA CARD ─────────────────────────── */
-[data-theme="dark"] .hero-media-card {
-  box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 40px rgba(255,225,64,0.06) !important;
-  border: 1px solid rgba(255,225,64,0.1) !important;
-}
 
 /* ── HERO TAG / RADAR ────────────────────────── */
 [data-theme="dark"] .hero-tag {

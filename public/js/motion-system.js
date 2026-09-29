@@ -181,7 +181,7 @@
       rail.className = 'chapter-rail';
       rail.setAttribute('aria-label', 'Explorar seções');
       var labels = {
-        portal: 'Início', visita: 'Sua primeira visita', cultos: 'Cultos', comunidade: 'Comunidade',
+        portal: 'Início', igreja: 'A igreja', visita: 'Sua primeira visita', cultos: 'Cultos', comunidade: 'Comunidade',
         participe: 'Participe', estacionamento: 'Estacionamento', contato: 'Como chegar'
       };
       portal.querySelectorAll('section[id]').forEach(function (section) {
@@ -200,6 +200,9 @@
       portal.appendChild(rail);
     }
     var header = document.querySelector('.app-header');
+    var hero = document.querySelector('.hero-cinematic');
+    var lastY = window.scrollY || 0;
+    if (header) header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
     var bgRoot = document.getElementById('bgSystem');
     var navLinks = Array.prototype.slice.call(document.querySelectorAll('.quick-link[href^="#"]'));
     var navTargets = navLinks
@@ -220,7 +223,22 @@
 
       doc.style.setProperty('--scroll-progress', progress.toFixed(4));
 
-      if (header) header.classList.toggle('scrolled', scrollY > 40);
+      if (header) {
+        header.classList.toggle('scrolled', scrollY > 40);
+        // Recolhe ao descer e volta ao subir; nunca com foco dentro nem fora do portal.
+        var portalActive = portal && portal.classList.contains('active');
+        var delta = scrollY - lastY;
+        if (!portalActive || scrollY < 200 || header.contains(document.activeElement)) header.classList.remove('is-hidden');
+        else if (delta > 8) header.classList.add('is-hidden');
+        else if (delta < -8) header.classList.remove('is-hidden');
+        lastY = scrollY;
+      }
+
+      // Saída do hero: 0 no topo, 1 quando o hero termina de sair da tela.
+      if (hero && !reduceMotion) {
+        var heroExit = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight || 1)));
+        hero.style.setProperty('--hero-exit', heroExit.toFixed(4));
+      }
       var currentChapter = null;
       chapters.forEach(function (entry) {
         if (entry.target.getBoundingClientRect().top <= window.innerHeight * 0.5) currentChapter = entry;
@@ -242,7 +260,6 @@
 
       if (!reduceMotion && bgRoot) {
         bgRoot.style.setProperty('--bgsys-scroll-slow', (scrollY * 0.04).toFixed(1) + 'px');
-        bgRoot.style.setProperty('--bgsys-scroll-mid', (scrollY * 0.07).toFixed(1) + 'px');
       }
 
       if (navTargets.length) {
@@ -306,7 +323,7 @@
   function initCardPresence() {
     if (reduceMotion || !canHover) return;
 
-    var SELECTOR = '.step-card, .schedule-card, .kpi-card, .verified-action-card, .content-card, ' +
+    var SELECTOR = '.kpi-card, .verified-action-card, .content-card, ' +
       '.bento-item-gc, .bento-item-batismo, .bento-item-membro, .bento-item-cursos, .bento-item-voluntarios';
 
     var pending = false;
@@ -481,58 +498,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     10. STATS COUNTERS (keynote matrix band com count-up suave)
-     ------------------------------------------------------------------------ */
-  function initStatsCounters() {
-    var counters = document.querySelectorAll('.stat-number[data-counter-target]');
-    if (!counters.length) return;
-
-    function runCounter(el) {
-      var target = parseFloat(el.getAttribute('data-counter-target')) || 0;
-      var prefix = el.getAttribute('data-counter-prefix') || '';
-      var suffix = el.getAttribute('data-counter-suffix') || '';
-      var duration = 1500;
-      var startTime = null;
-
-      function step(now) {
-        if (!startTime) startTime = now;
-        var progress = Math.min((now - startTime) / duration, 1);
-        var ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        var current = Math.round(target * ease);
-        el.textContent = prefix + current + suffix;
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        } else {
-          el.textContent = prefix + target + suffix;
-        }
-      }
-      window.requestAnimationFrame(step);
-    }
-
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      counters.forEach(function (el) {
-        var target = el.getAttribute('data-counter-target');
-        var prefix = el.getAttribute('data-counter-prefix') || '';
-        var suffix = el.getAttribute('data-counter-suffix') || '';
-        el.textContent = prefix + target + suffix;
-      });
-      return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          runCounter(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.25 });
-
-    counters.forEach(function (el) { observer.observe(el); });
-  }
-
-  /* ------------------------------------------------------------------------
-     11. DIVISORES ENTRE SEÇÕES (continuidade visual, seção 11)
+     10. DIVISORES ENTRE SEÇÕES (continuidade visual, seção 11)
      ------------------------------------------------------------------------ */
   function initSectionDividers() {
     document.querySelectorAll('#viewPortal .portal-section + .portal-section').forEach(function (section) {
@@ -555,6 +521,5 @@
     safe('ripple', initRipple);
     safe('transição de view', initViewTransitionCover);
     safe('contador de KPI', initKpiCountUp);
-    safe('contadores de métricas', initStatsCounters);
   });
 })();
