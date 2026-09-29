@@ -103,26 +103,26 @@
         <div class="hero-content-col">
           
           <!-- Live Radar Event Pill -->
-          <a href="#cultos" class="hero-live-radar reveal">
+          <a href="#cultos" class="hero-live-radar reveal" style="--stagger-index:0;">
             <span class="radar-beacon"></span>
             <span class="radar-badge">Ao Vivo & Domingo</span>
             <span class="radar-text">Celebração da Família • <strong>10h & 18h</strong></span>
           </a>
 
-          <div class="hero-tag reveal">
+          <div class="hero-tag reveal" style="--stagger-index:1;">
             <img src="assets/lagoinha_official_emblem.svg" alt="Emblema Lagoinha" width="22" height="22" style="display:block;">
             <span>Lagoinha Alphaville • Av. Tamboré, 74</span>
           </div>
 
-          <h1 class="hero-headline reveal" style="--stagger-index:1;">
+          <h1 class="hero-headline reveal" style="--stagger-index:2;">
             <span class="hero-gradient-text">Sua chegada</span><br>importa.
           </h1>
 
-          <p class="hero-subheadline reveal" style="--stagger-index:2;">
+          <p class="hero-subheadline reveal" style="--stagger-index:3;">
             Conheça a comunidade, planeje sua visita e descubra como participar. Um lugar de acolhimento, fé e novos começos em Alphaville.
           </p>
 
-          <div class="hero-actions-row reveal" style="--stagger-index:3;">
+          <div class="hero-actions-row reveal" style="--stagger-index:4;">
             <a href="#visita" class="btn btn-primary">
               <span>Planejar minha visita</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -137,7 +137,7 @@
         </div>
 
         <div class="hero-image-col">
-          <div class="hero-media-card reveal" style="--stagger-index:2;">
+          <div class="hero-media-card reveal" style="--stagger-index:3;">
             <figure class="official-photo official-hero"><button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/church.jpg" data-lightbox-caption="Fé vivida em comunidade. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Pessoas com as mãos erguidas durante um culto"><img src="assets/official/church.jpg" alt="Pessoas com as mãos erguidas durante um culto" width="1000" height="563" fetchpriority="high" decoding="async"></button><figcaption>Fé vivida em comunidade. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto do site oficial ↗</a></figcaption></figure>
           </div>
         </div>
@@ -1161,6 +1161,7 @@
 
   <!-- Véu de transição entre Portal e Estacionamento (motion-system.js) -->
   <div id="viewTransitionCover" aria-hidden="true"></div>
+  <div id="scrollProgressBar" aria-hidden="true"></div>
 
   <!-- Scripts -->
   <script src="js/icons.js"></script>

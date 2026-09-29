@@ -804,8 +804,11 @@
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
   #viewPortal .official-photo img {
     transform: translateY(var(--photo-drift, 0px)) scale(1.12);
-    transition: transform 180ms linear;
+    transition: transform 180ms linear, scale .6s var(--ease-out-soft);
   }
+  /* A paralaxe ocupa transform; o zoom de hover segue pela propriedade scale. */
+  #viewPortal .official-photo-trigger:hover img,
+  #viewPortal .official-photo-trigger:focus-visible img { scale: 1.035; }
 }
 @media (max-width: 1100px) { .chapter-rail { display: none; } }
 @media (prefers-reduced-motion: reduce) {

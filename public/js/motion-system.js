@@ -136,14 +136,19 @@
       var rail = document.createElement('nav');
       rail.className = 'chapter-rail';
       rail.setAttribute('aria-label', 'Explorar seções');
-      var labels = ['Início', 'Sua primeira visita', 'Cultos', 'Comunidade', 'Participe', 'Estacionamento', 'Como chegar'];
-      portal.querySelectorAll('section[id]').forEach(function (section, index) {
+      var labels = {
+        portal: 'Início', visita: 'Sua primeira visita', cultos: 'Cultos', comunidade: 'Comunidade',
+        participe: 'Participe', estacionamento: 'Estacionamento', contato: 'Como chegar'
+      };
+      portal.querySelectorAll('section[id]').forEach(function (section) {
+        var text = labels[section.id] || section.id;
         var link = document.createElement('a');
         link.href = '#' + section.id;
         link.className = 'chapter-link';
-        link.setAttribute('aria-label', labels[index] || section.id);
+        link.setAttribute('aria-label', text);
         var label = document.createElement('span');
-        label.textContent = labels[index] || section.id;
+        label.setAttribute('aria-hidden', 'true');
+        label.textContent = text;
         link.appendChild(label);
         rail.appendChild(link);
         chapters.push({ link: link, target: section });
@@ -181,8 +186,10 @@
         else entry.link.removeAttribute('aria-current');
       });
       if (!reduceMotion && window.innerWidth > 900) {
-        photos.forEach(function (photo) {
-          var rect = photo.parentElement.getBoundingClientRect();
+        // Todas as leituras antes das escritas, para não forçar layout a cada foto.
+        var rects = photos.map(function (photo) { return photo.parentElement.getBoundingClientRect(); });
+        photos.forEach(function (photo, i) {
+          var rect = rects[i];
           if (!rect.height || rect.bottom < 0 || rect.top > window.innerHeight) return;
           var distance = (window.innerHeight / 2 - rect.top - rect.height / 2) / window.innerHeight;
           photo.style.setProperty('--photo-drift', (Math.max(-1, Math.min(1, distance)) * 24).toFixed(1) + 'px');
@@ -196,7 +203,7 @@
 
       if (navTargets.length) {
         var mid = scrollY + window.innerHeight * 0.45;
-        var current = navTargets[0];
+        var current = null;
         navTargets.forEach(function (entry) {
           if (entry.target.offsetTop <= mid) current = entry;
         });
