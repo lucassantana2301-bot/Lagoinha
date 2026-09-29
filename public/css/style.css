@@ -1936,9 +1936,6 @@ a:hover {
   box-shadow: var(--shadow-md);
 }
 
-.verified-action-card.card-wide {
-  grid-column: span 2;
-}
 
 .verified-action-icon {
   width: 40px;
@@ -2213,8 +2210,10 @@ body.lightbox-locked {
   .verified-actions-band {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .verified-action-card.card-wide {
-    grid-column: span 2;
+@media (max-width: 640px) {
+  .verified-actions-band {
+    grid-template-columns: 1fr;
   }
 }

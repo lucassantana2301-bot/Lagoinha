@@ -70,6 +70,18 @@
   text-transform: uppercase !important;
 }
 
+/* Etiquetas abraçam o texto mesmo dentro de colunas flex/grid que esticam os filhos. */
+.section-tag,
+.bento-tag-pill {
+  width: fit-content;
+  align-self: flex-start;
+  justify-self: start;
+}
+.section-header .section-tag {
+  align-self: center;
+  justify-self: center;
+}
+
 /* 2. Asymmetric Bento Grid for "Encontre seu Próximo Passo" (#participe) */
 .bento-participe-grid {
   display: grid;
@@ -254,129 +266,39 @@
 .bento-membro-watermark,
 .bento-card-watermark {
   position: absolute;
-  right: -25px;
-  bottom: -25px;
-  opacity: 0.14;
+  opacity: 0.06;
   pointer-events: none;
-  transform: rotate(-15deg);
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, filter 0.45s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
   z-index: 0 !important;
 }
 
-/* Watermark Asymmetric Positions */
-.bento-card-watermark.watermark-right,
-.bento-card-watermark.watermark-br {
-  right: -25px;
-  bottom: -25px;
+/* Marca d'água sempre num canto: nas posições centrais o emblema (disco amarelo) ficava atrás do texto. */
+.bento-card-watermark,
+.bento-card-watermark[class*="watermark-"] {
+  right: -28px;
+  bottom: -28px;
   left: auto;
   top: auto;
-  transform: rotate(-15deg);
-}
-
-.bento-card-watermark.watermark-left,
-.bento-card-watermark.watermark-bl {
-  left: -25px;
-  bottom: -25px;
-  right: auto;
-  top: auto;
-  transform: rotate(15deg);
-}
-
-.bento-card-watermark.watermark-tr {
-  right: -20px;
-  top: -20px;
-  left: auto;
-  bottom: auto;
-  transform: rotate(12deg);
-}
-
-.bento-card-watermark.watermark-tl {
-  left: -20px;
-  top: -20px;
-  right: auto;
-  bottom: auto;
   transform: rotate(-12deg);
 }
-
-.bento-card-watermark.watermark-center {
-  left: 50%;
-  top: 50%;
+.bento-card-watermark.watermark-left,
+.bento-card-watermark.watermark-bl {
+  left: -28px;
   right: auto;
+  transform: rotate(12deg);
+}
+.bento-card-watermark.watermark-tr {
+  top: -24px;
   bottom: auto;
-  transform: translate(-50%, -50%) rotate(0deg);
-  opacity: 0.10;
 }
 
-.bento-card-watermark.watermark-center-right {
-  right: 2%;
-  top: 50%;
-  left: auto;
-  bottom: auto;
-  transform: translateY(-50%) rotate(-10deg);
+*:hover > .bento-card-watermark {
+  opacity: 0.1;
+  transform: rotate(-4deg) scale(1.04);
 }
-
-.bento-card-watermark.watermark-center-left {
-  left: 2%;
-  top: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translateY(-50%) rotate(10deg);
-}
-
-[data-theme="dark"] .bento-card-watermark,
-[data-theme="dark"] .bento-membro-watermark {
-  opacity: 0.16;
-  filter: drop-shadow(0 0 16px rgba(255, 225, 64, 0.25));
-}
-
-[data-theme="dark"] .bento-card-watermark.watermark-center {
-  opacity: 0.12;
-}
-
-/* Hover Dynamic Sheen & Scale per position */
-*:hover > .bento-card-watermark.watermark-right,
-*:hover > .bento-card-watermark.watermark-br,
-*:hover > .bento-card-watermark:not(.watermark-left):not(.watermark-center):not(.watermark-tr):not(.watermark-tl):not(.watermark-center-right):not(.watermark-center-left) {
-  opacity: 0.28;
-  transform: rotate(-10deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
-}
-
 *:hover > .bento-card-watermark.watermark-left,
 *:hover > .bento-card-watermark.watermark-bl {
-  opacity: 0.28;
-  transform: rotate(10deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
-}
-
-*:hover > .bento-card-watermark.watermark-tr {
-  opacity: 0.28;
-  transform: rotate(8deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
-}
-
-*:hover > .bento-card-watermark.watermark-tl {
-  opacity: 0.28;
-  transform: rotate(-8deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
-}
-
-*:hover > .bento-card-watermark.watermark-center {
-  opacity: 0.22;
-  transform: translate(-50%, -50%) rotate(6deg) scale(1.12);
-  filter: drop-shadow(0 0 28px rgba(255, 225, 64, 0.5));
-}
-
-*:hover > .bento-card-watermark.watermark-center-right {
-  opacity: 0.28;
-  transform: translateY(-50%) rotate(-5deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
-}
-
-*:hover > .bento-card-watermark.watermark-center-left {
-  opacity: 0.28;
-  transform: translateY(-50%) rotate(5deg) scale(1.08);
-  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+  transform: rotate(4deg) scale(1.04);
 }
 
 /* BENTO ITEM 4: Cursos & Escola Bíblica (5 Columns) */
@@ -672,17 +594,9 @@
 .dark-showcase-box .bento-card-watermark {
   right: -30px;
   bottom: -30px;
-  opacity: 0.10;
-  pointer-events: none;
-  filter: drop-shadow(0 0 25px rgba(255, 225, 64, 0.25));
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
 }
 
-.dark-showcase-box:hover .bento-card-watermark {
-  opacity: 0.22;
-  transform: translateY(-50%) rotate(-6deg) scale(1.06);
-  filter: drop-shadow(0 0 40px rgba(255, 225, 64, 0.45));
-}
+
 
 .dark-showcase-headline {
   font-size: clamp(2.2rem, 3.6vw, 3.2rem) !important;
