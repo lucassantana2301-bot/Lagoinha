@@ -1,0 +1,869 @@
+﻿/* ==========================================================================
+   OFFICIAL PORTAL ELEVATION & BENTO GRID ARCHITECTURE
+   Luxury editorial scale, wide-screen harmony (1440px), balanced proportions,
+   luminous glassmorphism, and asymmetric Bento layout.
+   ========================================================================== */
+
+/* 1. Global Container & Editorial Scale */
+.section-container {
+  max-width: 1420px !important;
+  margin: 0 auto !important;
+  padding: 0 2rem !important;
+}
+
+.portal-hero-inner {
+  max-width: 1420px !important;
+  margin: 0 auto !important;
+}
+
+.hero-headline {
+  font-size: clamp(3rem, 5.5vw, 4.8rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.08 !important;
+  margin-bottom: 1.35rem !important;
+}
+
+.hero-subheadline {
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem) !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.65 !important;
+  margin-bottom: 2.25rem !important;
+  max-width: 620px !important;
+}
+
+.hero-tag {
+  font-size: 0.92rem !important;
+  padding: 0.45rem 1.15rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.section-header {
+  max-width: 920px !important;
+  margin: 0 auto 3.5rem auto !important;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(2.8rem, 4.8vw, 4.2rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.12 !important;
+  color: var(--text-primary) !important;
+}
+
+.section-subtitle {
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem) !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.65 !important;
+  margin-top: 1rem !important;
+  font-weight: 450 !important;
+}
+
+.section-tag {
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+  padding: 0.45rem 1.15rem !important;
+  border-radius: var(--radius-pill) !important;
+  text-transform: uppercase !important;
+}
+
+/* 2. Asymmetric Bento Grid for "Encontre seu Próximo Passo" (#participe) */
+.bento-participe-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* BENTO ITEM 1: GCs (Featured Hero Card - 12 Columns) */
+.bento-item-gc {
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 225, 64, 0.35);
+  border-radius: 28px;
+  padding: 3.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .bento-item-gc {
+  background: rgba(22, 22, 28, 0.85);
+  box-shadow: 0 28px 60px -15px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 225, 64, 0.12);
+}
+
+.bento-gc-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.bento-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: #FFE140 !important;
+  background: rgba(255, 225, 64, 0.16) !important;
+  border: 1px solid rgba(255, 225, 64, 0.4) !important;
+  padding: 0.45rem 1.05rem !important;
+  border-radius: var(--radius-pill) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.bento-tag-pill .pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FFE140;
+  box-shadow: 0 0 10px #FFE140;
+}
+
+.bento-title {
+  font-size: clamp(2rem, 3vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.18 !important;
+}
+
+.bento-desc {
+  font-size: 1.15rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.7 !important;
+  margin-bottom: 2rem !important;
+}
+
+[data-theme="dark"] .bento-desc {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.bento-actions-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bento-actions-row .btn {
+  font-size: 1.05rem !important;
+  padding: 0.85rem 1.65rem !important;
+  font-weight: 700 !important;
+}
+
+.bento-gc-media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bento-gc-info-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+}
+
+[data-theme="light"] .bento-gc-info-strip {
+  background: var(--bg-surface-secondary);
+  border-color: var(--border-subtle);
+}
+
+.bento-info-box strong {
+  display: block;
+  font-size: 1.08rem !important;
+  font-weight: 800 !important;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.bento-info-box span {
+  font-size: 0.92rem !important;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* BENTO ITEM 2: Batismo (7 Columns) */
+.bento-item-batismo {
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.25rem;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-batismo {
+  background: rgba(22, 22, 28, 0.85);
+  border-color: rgba(255, 225, 64, 0.3);
+}
+
+/* BENTO ITEM 3: Seja Membro (5 Columns) */
+.bento-item-membro {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-membro {
+  background: rgba(22, 22, 28, 0.85);
+  border-color: rgba(175, 82, 222, 0.3);
+}
+
+.step-card,
+.schedule-card,
+.editorial-quote-card,
+.dark-showcase-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.step-card > *,
+.schedule-card > *,
+.editorial-quote-card > *,
+.dark-showcase-box > * {
+  position: relative;
+  z-index: 1;
+}
+
+.bento-membro-watermark,
+.bento-card-watermark {
+  position: absolute;
+  right: -25px;
+  bottom: -25px;
+  opacity: 0.14;
+  pointer-events: none;
+  transform: rotate(-15deg);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, filter 0.45s ease;
+  z-index: 0 !important;
+}
+
+/* Watermark Asymmetric Positions */
+.bento-card-watermark.watermark-right,
+.bento-card-watermark.watermark-br {
+  right: -25px;
+  bottom: -25px;
+  left: auto;
+  top: auto;
+  transform: rotate(-15deg);
+}
+
+.bento-card-watermark.watermark-left,
+.bento-card-watermark.watermark-bl {
+  left: -25px;
+  bottom: -25px;
+  right: auto;
+  top: auto;
+  transform: rotate(15deg);
+}
+
+.bento-card-watermark.watermark-tr {
+  right: -20px;
+  top: -20px;
+  left: auto;
+  bottom: auto;
+  transform: rotate(12deg);
+}
+
+.bento-card-watermark.watermark-tl {
+  left: -20px;
+  top: -20px;
+  right: auto;
+  bottom: auto;
+  transform: rotate(-12deg);
+}
+
+.bento-card-watermark.watermark-center {
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 0.10;
+}
+
+.bento-card-watermark.watermark-center-right {
+  right: 2%;
+  top: 50%;
+  left: auto;
+  bottom: auto;
+  transform: translateY(-50%) rotate(-10deg);
+}
+
+.bento-card-watermark.watermark-center-left {
+  left: 2%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateY(-50%) rotate(10deg);
+}
+
+[data-theme="dark"] .bento-card-watermark,
+[data-theme="dark"] .bento-membro-watermark {
+  opacity: 0.16;
+  filter: drop-shadow(0 0 16px rgba(255, 225, 64, 0.25));
+}
+
+[data-theme="dark"] .bento-card-watermark.watermark-center {
+  opacity: 0.12;
+}
+
+/* Hover Dynamic Sheen & Scale per position */
+*:hover > .bento-card-watermark.watermark-right,
+*:hover > .bento-card-watermark.watermark-br,
+*:hover > .bento-card-watermark:not(.watermark-left):not(.watermark-center):not(.watermark-tr):not(.watermark-tl):not(.watermark-center-right):not(.watermark-center-left) {
+  opacity: 0.28;
+  transform: rotate(-10deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+*:hover > .bento-card-watermark.watermark-left,
+*:hover > .bento-card-watermark.watermark-bl {
+  opacity: 0.28;
+  transform: rotate(10deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+*:hover > .bento-card-watermark.watermark-tr {
+  opacity: 0.28;
+  transform: rotate(8deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+*:hover > .bento-card-watermark.watermark-tl {
+  opacity: 0.28;
+  transform: rotate(-8deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+*:hover > .bento-card-watermark.watermark-center {
+  opacity: 0.22;
+  transform: translate(-50%, -50%) rotate(6deg) scale(1.12);
+  filter: drop-shadow(0 0 28px rgba(255, 225, 64, 0.5));
+}
+
+*:hover > .bento-card-watermark.watermark-center-right {
+  opacity: 0.28;
+  transform: translateY(-50%) rotate(-5deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+*:hover > .bento-card-watermark.watermark-center-left {
+  opacity: 0.28;
+  transform: translateY(-50%) rotate(5deg) scale(1.08);
+  filter: drop-shadow(0 0 24px rgba(255, 225, 64, 0.45));
+}
+
+/* BENTO ITEM 4: Cursos & Escola Bíblica (5 Columns) */
+.bento-item-cursos {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-cursos {
+  background: rgba(22, 22, 28, 0.85);
+  border-color: rgba(0, 199, 190, 0.3);
+}
+
+.bento-course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1.5rem 0 1.75rem 0;
+}
+
+.bento-course-badge {
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-pill);
+}
+
+[data-theme="light"] .bento-course-badge {
+  background: var(--bg-surface-secondary);
+  border-color: var(--border-subtle);
+}
+
+/* BENTO ITEM 5: Voluntariado (7 Columns) */
+.bento-item-voluntarios {
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.25rem;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-voluntarios {
+  background: rgba(22, 22, 28, 0.85);
+  border-color: rgba(255, 225, 64, 0.3);
+}
+
+.card-action-link {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #FFE140 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: transform 0.25s ease, color 0.25s ease, text-shadow 0.25s ease;
+  text-decoration: none;
+}
+
+.card-action-link:hover {
+  color: #FFE066 !important;
+  text-shadow: 0 0 12px rgba(255, 225, 64, 0.5);
+  transform: translateX(4px);
+}
+
+.bento-actions-row {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.bento-gc-media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bento-gc-info-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+}
+
+[data-theme="light"] .bento-gc-info-strip {
+  background: var(--bg-surface-secondary);
+  border-color: var(--border-subtle);
+}
+
+.bento-info-box strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.bento-info-box span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* BENTO ITEM 2: Batismo (7 Columns) */
+.bento-item-batismo {
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.75rem;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 2.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-batismo {
+  background: rgba(22, 22, 28, 0.75);
+  border-color: rgba(255, 225, 64, 0.2);
+}
+
+/* BENTO ITEM 3: Seja Membro (5 Columns) */
+.bento-item-membro {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 2.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-membro {
+  background: rgba(22, 22, 28, 0.75);
+  border-color: rgba(175, 82, 222, 0.2);
+}
+
+.bento-membro-watermark {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  opacity: 0.08;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+
+/* BENTO ITEM 4: Cursos & Escola Bíblica (5 Columns) */
+.bento-item-cursos {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 2.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-cursos {
+  background: rgba(22, 22, 28, 0.75);
+  border-color: rgba(0, 199, 190, 0.2);
+}
+
+.bento-course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 1.5rem 0;
+}
+
+.bento-course-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+[data-theme="light"] .bento-course-badge {
+  background: var(--bg-surface-secondary);
+  border-color: var(--border-subtle);
+}
+
+/* BENTO ITEM 5: Voluntariado (7 Columns) */
+.bento-item-voluntarios {
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.75rem;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 2.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bento-item-voluntarios {
+  background: rgba(22, 22, 28, 0.75);
+  border-color: rgba(255, 225, 64, 0.2);
+}
+
+/* 3. Responsive Layout */
+@media (max-width: 1100px) {
+  .bento-item-gc {
+    grid-template-columns: 1fr;
+  }
+  .bento-item-batismo,
+  .bento-item-voluntarios {
+    grid-column: span 12;
+    grid-template-columns: 1fr 1fr;
+  }
+  .bento-item-membro,
+  .bento-item-cursos {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    padding: 0 1.25rem !important;
+  }
+  .bento-participe-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .bento-item-gc,
+  .bento-item-batismo,
+  .bento-item-membro,
+  .bento-item-cursos,
+  .bento-item-voluntarios {
+    grid-column: span 1 !important;
+    grid-template-columns: 1fr !important;
+    padding: 1.75rem !important;
+  }
+}
+
+/* ==========================================================================
+   4. LUXURY PARKING DARK SHOWCASE REFINEMENT
+   ========================================================================== */
+.parking-dark-showcase-section {
+  position: relative;
+  padding: 4.5rem 0;
+}
+
+.dark-showcase-box {
+  background: radial-gradient(circle at 88% 18%, rgba(255, 225, 64, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 12% 82%, rgba(255, 225, 64, 0.06) 0%, transparent 50%),
+              linear-gradient(145deg, rgba(22, 22, 28, 0.96) 0%, rgba(12, 12, 16, 0.98) 100%);
+  border: 1px solid rgba(255, 225, 64, 0.25);
+  border-radius: 36px;
+  padding: 3.75rem;
+  box-shadow: 0 35px 90px -15px rgba(0, 0, 0, 0.75), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.15),
+              0 0 40px -10px rgba(255, 225, 64, 0.12);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.dark-showcase-box .bento-card-watermark {
+  right: -30px;
+  bottom: -30px;
+  opacity: 0.10;
+  pointer-events: none;
+  filter: drop-shadow(0 0 25px rgba(255, 225, 64, 0.25));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
+}
+
+.dark-showcase-box:hover .bento-card-watermark {
+  opacity: 0.22;
+  transform: translateY(-50%) rotate(-6deg) scale(1.06);
+  filter: drop-shadow(0 0 40px rgba(255, 225, 64, 0.45));
+}
+
+.dark-showcase-headline {
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.15 !important;
+  color: #FFFFFF;
+  margin-bottom: 1.25rem;
+}
+
+.dark-showcase-body {
+  font-size: 1.02rem !important;
+  color: rgba(235, 235, 245, 0.82) !important;
+  line-height: 1.68 !important;
+  margin-bottom: 1.75rem !important;
+}
+
+.dark-pill-row {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.25rem;
+}
+
+.dark-pill {
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  color: rgba(245, 245, 250, 0.95) !important;
+  padding: 0.45rem 0.95rem !important;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Luxury Window Frame Mockup */
+.dark-showcase-window {
+  border-radius: 20px;
+  background: #101015;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 225, 64, 0.18);
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+  cursor: pointer;
+}
+
+.dark-showcase-window:hover {
+  transform: translateY(-4px) scale(1.015);
+  border-color: rgba(255, 225, 64, 0.45);
+  box-shadow: 0 35px 85px -10px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 225, 64, 0.25);
+}
+
+.dark-window-header {
+  height: 38px;
+  background: rgba(26, 26, 32, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.dark-window-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.dark-window-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dark-window-dot.dot-red { background: #FF5F56; box-shadow: 0 0 6px rgba(255, 95, 86, 0.4); }
+.dark-window-dot.dot-yellow { background: #FFBD2E; box-shadow: 0 0 6px rgba(255, 189, 46, 0.4); }
+.dark-window-dot.dot-green { background: #27C93F; box-shadow: 0 0 6px rgba(39, 201, 63, 0.4); }
+
+.dark-window-title {
+  margin: 0 auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateX(-18px);
+}
+
+/* Scrollbar artifact elimination */
+.dark-showcase-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9.8;
+  background: #000;
+}
+
+.dark-preview-img {
+  width: 102.5%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+  transform: scale(1.025);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark-showcase-window:hover .dark-preview-img {
+  transform: scale(1.055);
+}
+
+.dark-preview-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  background: rgba(18, 18, 22, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 0.85rem 1.15rem;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Refined Gallery Strip */
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.gallery-strip .gallery-thumb {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #121218;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  padding: 0;
+  cursor: zoom-in;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gallery-strip .gallery-thumb img {
+  width: 103%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+  transform: scale(1.03);
+  transform-origin: left center;
+  transition: transform 0.4s ease;
+}
+
+.gallery-strip .gallery-thumb:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 225, 64, 0.55);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 225, 64, 0.25);
+}
+
+.gallery-strip .gallery-thumb:hover img {
+  transform: scale(1.09);
+}
+
+.gallery-thumb-caption {
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+}
+
+@media (max-width: 1024px) {
+  .dark-showcase-box {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 2rem;
+  }
+}

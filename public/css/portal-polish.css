@@ -1,0 +1,105 @@
+﻿/* ==========================================================================
+   PORTAL POLISH — acabamento editorial para as fotografias oficiais
+   Camada aditiva sobre public/css/official-photos.css. Não redefine layout,
+   apenas eleva tipografia, moldura, foco/hover e espaçamento das fotos reais
+   já incorporadas (hero, GCs, Batismo, Voluntariado). Deve ser carregado
+   DEPOIS de style.css e official-photos.css (ver HANDOFF-CLAUDE.md).
+   ========================================================================== */
+
+.official-photo {
+  position: relative;
+  border-radius: var(--radius-lg, 14px);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+  transition: box-shadow 0.35s var(--ease-apple, ease), transform 0.35s var(--ease-apple, ease);
+}
+
+.official-photo-trigger {
+  border-radius: inherit;
+}
+
+.official-photo:has(.official-photo-trigger:hover),
+.official-photo:has(.official-photo-trigger:focus-visible) {
+  box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.12));
+  transform: translateY(-3px);
+}
+
+.official-photo-trigger:focus-visible {
+  outline: 2px solid var(--accent-blue, #FFE140);
+  outline-offset: 3px;
+}
+
+/* Legenda / crédito da fonte — linha editorial discreta, alinhada à
+   tipografia usada em .quote-source e .card-action-link no resto do portal */
+.official-photo figcaption {
+  padding: 0.7rem 0.15rem 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  color: var(--text-tertiary, #86868B);
+  border-top: none;
+}
+
+.official-photo figcaption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  color: var(--accent-blue, #FFE140);
+  white-space: nowrap;
+  transition: gap 0.2s var(--ease-apple, ease);
+}
+
+.official-photo figcaption a:hover {
+  gap: 0.4rem;
+  text-decoration: underline;
+}
+
+/* Hero: reforça a moldura principal do portal sem alterar sua composição */
+.official-hero {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.official-hero:has(.official-photo-trigger:hover),
+.official-hero:has(.official-photo-trigger:focus-visible) {
+  transform: none;
+  box-shadow: none;
+}
+
+.official-hero figcaption {
+  padding: 0.85rem 1.1rem;
+  margin: 0;
+  background: var(--bg-surface, #fff);
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  font-size: 0.78rem;
+}
+
+/* GCs: respiro entre a fotografia e o cartão de informações — a folha
+   base não define esse espaçamento e a imagem encostava no bloco abaixo */
+.gc-hero-side .official-photo {
+  margin-bottom: 1.25rem;
+}
+
+.gc-hero-side .official-photo-trigger {
+  aspect-ratio: 4 / 3;
+}
+
+/* Batismo: retrato já vem centralizado e recortado; só refinamos moldura */
+.step-subcard .official-photo {
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+}
+
+/* Voluntariado: mantém a composição em coluna, ajusta ritmo vertical */
+.official-volunteer .official-photo figcaption {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .official-photo,
+  .official-photo:has(.official-photo-trigger:hover),
+  .official-photo:has(.official-photo-trigger:focus-visible) {
+    transition: none;
+    transform: none;
+  }
+}

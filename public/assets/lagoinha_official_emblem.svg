@@ -1,0 +1,28 @@
+<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="goldGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD600"/>
+      <stop offset="100%" stop-color="#FFC800"/>
+    </radialGradient>
+  </defs>
+  <!-- Yellow Circular Badge -->
+  <circle cx="50" cy="50" r="48" fill="url(#goldGradient)"/>
+  
+  <!-- Exact Official Lagoinha Dove Silhouette -->
+  <!-- Tail (top swallowtail notch) + Body + Wings (straight top edge, curved underbelly) + Head (downward point) -->
+  <path d="
+    M 42 25
+    C 45 28 47 30 50 30
+    C 53 28 55 25 58 25
+    C 56 32 54 42 54 56
+    L 82 56
+    C 78 66 65 72 54 66.5
+    L 50 80
+    L 46 66.5
+    C 35 72 22 66 18 56
+    L 46 56
+    C 46 42 44 32 42 25
+    Z"
+    fill="#111114"
+  />
+</svg>

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lagoinha Alphaville • Portal & Lagoinha Parking</title>
+  <meta name="description" content="Portal de acolhimento e sistema inteligente de monitoramento de estacionamento da Igreja Lagoinha Alphaville em Barueri/SP.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/lagoinha_official_emblem.svg">
+<link rel="stylesheet" href="css/official-photos.css">
+<link rel="stylesheet" href="css/parking-polish.css">
+<link rel="stylesheet" href="css/portal-polish.css">
+<link rel="stylesheet" href="css/bento-elevation.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/motion-system.css">
+  <link rel="stylesheet" href="css/dark-premium.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       BACKGROUND SYSTEM — camada visual fixa (decorativa, fora da leitura)
+       ======================================================================== -->
+  <div id="bgSystem" aria-hidden="true">
+    <div class="bg-mesh"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+    <svg class="bg-connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="bgsysLineGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="var(--bgsys-blue)" stop-opacity="0.6"/>
+          <stop offset="50%" stop-color="var(--bgsys-violet)" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="var(--bgsys-gold)" stop-opacity="0.5"/>
+        </linearGradient>
+      </defs>
+      <path class="bgsys-line" d="M80,120 L340,60 L560,180 L820,90 L1100,150"/>
+      <path class="bgsys-line" d="M60,420 L280,500 L520,430 L760,540 L1020,470"/>
+      <path class="bgsys-line" d="M180,680 L420,620 L680,700 L940,640 L1160,690"/>
+      <circle class="bgsys-node" cx="80" cy="120" r="3"/>
+      <circle class="bgsys-node" cx="340" cy="60" r="2.4"/>
+      <circle class="bgsys-node" cx="560" cy="180" r="3.4"/>
+      <circle class="bgsys-node" cx="820" cy="90" r="2.4"/>
+      <circle class="bgsys-node" cx="1100" cy="150" r="3"/>
+      <circle class="bgsys-node" cx="60" cy="420" r="2.6"/>
+      <circle class="bgsys-node" cx="280" cy="500" r="3.2"/>
+      <circle class="bgsys-node" cx="520" cy="430" r="2.4"/>
+      <circle class="bgsys-node" cx="760" cy="540" r="3"/>
+      <circle class="bgsys-node" cx="1020" cy="470" r="2.6"/>
+      <circle class="bgsys-node" cx="180" cy="680" r="2.8"/>
+      <circle class="bgsys-node" cx="680" cy="700" r="3.2"/>
+      <circle class="bgsys-node" cx="1160" cy="690" r="2.4"/>
+    </svg>
+    <div class="bg-vignette"></div>
+    <div class="bg-noise"></div>
+  </div>
+
+  <!-- ========================================================================
+       TOP UNIFIED APP HEADER (APPLE HIG GLASSMORPHIC)
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="header-inner">
+      
+      <!-- Brand & Emblema Lagoinha -->
+      <div class="brand-section">
+        <a href="#portal" class="brand-link" id="brandLogoBtn" title="Início do Portal Lagoinha Alphaville">
+          <img src="assets/lagoinha_alphaville_official_logo.png" alt="Lagoinha Alphaville" class="brand-official-logo" height="38" style="height:38px; width:auto; object-fit:contain; display:block;">
+        </a>
+      </div>
+
+      <!-- Portal Quick Anchor Links -->
+      <nav class="portal-quick-links" id="portalQuickLinks" aria-label="Navegação do Portal">
+        <a href="#visita" class="quick-link">Primeira Visita</a>
+        <a href="#cultos" class="quick-link">Cultos</a>
+        <a href="#comunidade" class="quick-link">A Comunidade</a>
+        <a href="#participe" class="quick-link">Próximo Passo</a>
+        <a href="#estacionamento" class="quick-link">Estacionamento</a>
+        <a href="#contato" class="quick-link">Como Chegar</a>
+      </nav>
+
+      <!-- Action Button & Area Switcher -->
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btnToggleOperationalMode" title="Acessar painel do estacionamento">
+          <span id="navIconParkingApp"></span>
+          <span>Área Operacional</span>
+        </button>
+        <a href="#visita" class="btn btn-primary btn-sm" id="btnHeaderPlanVisit">Planejar minha visita</a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       EXPERIENCE 1: PORTAL INSTITUCIONAL LAGOINHA ALPHAVILLE
+       ======================================================================== -->
+  <div id="viewPortal" class="view-experience active">
+
+    <!-- A. HERO: SUA CHEGADA IMPORTA -->
+    <section class="portal-hero" id="portal">
+      <div class="portal-hero-inner">
+        <div class="hero-content-col">
+          
+          <!-- Live Radar Event Pill -->
+          <a href="#cultos" class="hero-live-radar reveal">
+            <span class="radar-beacon"></span>
+            <span class="radar-badge">Ao Vivo & Domingo</span>
+            <span class="radar-text">Celebração da Família • <strong>10h & 18h</strong></span>
+          </a>
+
+          <div class="hero-tag reveal">
+            <img src="assets/lagoinha_official_emblem.svg" alt="Emblema Lagoinha" width="22" height="22" style="display:block;">
+            <span>Lagoinha Alphaville • Av. Tamboré, 74</span>
+          </div>
+
+          <h1 class="hero-headline reveal" style="--stagger-index:1;">
+            <span class="hero-gradient-text">Sua chegada</span><br>importa.
+          </h1>
+
+          <p class="hero-subheadline reveal" style="--stagger-index:2;">
+            Conheça a comunidade, planeje sua visita e descubra como participar. Um lugar de acolhimento, fé e novos começos em Alphaville.
+          </p>
+
+          <div class="hero-actions-row reveal" style="--stagger-index:3;">
+            <a href="#visita" class="btn btn-primary">
+              <span>Planejar minha visita</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#comunidade" class="btn">
+              <span>Conhecer a comunidade</span>
+            </a>
+            <a href="#estacionamento" class="btn">
+              <span>Estacionamento</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-image-col">
+          <div class="hero-media-card reveal" style="--stagger-index:2;">
+            <figure class="official-photo official-hero"><button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/church.jpg" data-lightbox-caption="Fé vivida em comunidade. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Pessoas com as mãos erguidas durante um culto"><img src="assets/official/church.jpg" alt="Pessoas com as mãos erguidas durante um culto" width="1000" height="563" fetchpriority="high" decoding="async"></button><figcaption>Fé vivida em comunidade. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto do site oficial ↗</a></figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- KINETIC INFINITE MARQUEE TICKER (LANDO NORRIS STYLE) -->
+    <div class="lando-marquee-section" aria-label="Destaques Institucionais em Movimento">
+      <div class="lando-marquee-track">
+        <div class="lando-marquee-item">
+          <img src="assets/lagoinha_official_emblem.svg" alt="" class="marquee-emblem" width="24" height="24">
+          <span>Lagoinha <span class="marquee-accent">Alphaville</span></span>
+          <span class="marquee-dot"></span>
+          <span>O acolhimento começa antes de entrar</span>
+          <span class="marquee-dot"></span>
+          <span>Domingos <span class="marquee-accent">10h & 18h</span></span>
+          <span class="marquee-dot"></span>
+          <span>Av. Tamboré, 74</span>
+          <span class="marquee-dot"></span>
+          <span>Uma Igreja <span class="marquee-accent">Viva</span></span>
+          <span class="marquee-dot"></span>
+          <span>Estacionamento Inteligente</span>
+          <span class="marquee-dot"></span>
+        </div>
+        <div class="lando-marquee-item" aria-hidden="true">
+          <img src="assets/lagoinha_official_emblem.svg" alt="" class="marquee-emblem" width="24" height="24">
+          <span>Lagoinha <span class="marquee-accent">Alphaville</span></span>
+          <span class="marquee-dot"></span>
+          <span>O acolhimento começa antes de entrar</span>
+          <span class="marquee-dot"></span>
+          <span>Domingos <span class="marquee-accent">10h & 18h</span></span>
+          <span class="marquee-dot"></span>
+          <span>Av. Tamboré, 74</span>
+          <span class="marquee-dot"></span>
+          <span>Uma Igreja <span class="marquee-accent">Viva</span></span>
+          <span class="marquee-dot"></span>
+          <span>Estacionamento Inteligente</span>
+          <span class="marquee-dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KINETIC KEYNOTE STATS MATRIX BAND -->
+    <div class="keynote-stats-band reveal-stagger" aria-label="Métricas e Impacto da Comunidade">
+      <div class="keynote-stat-card border-beam-card">
+        <div class="stat-sparkle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFE140"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg>
+        </div>
+        <div class="stat-number-row">
+          <span class="stat-number" data-counter-target="120" data-counter-prefix="+" data-counter-suffix="k">+120k</span>
+        </div>
+        <div class="stat-label">Pessoas conectadas em comunidade na Rede Lagoinha</div>
+      </div>
+      <div class="keynote-stat-card">
+        <div class="stat-sparkle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFE140"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="stat-number-row">
+          <span class="stat-number" data-counter-target="600" data-counter-prefix="+" data-counter-suffix="">+600</span>
+        </div>
+        <div class="stat-label">Igrejas plantadas no Brasil e no mundo</div>
+      </div>
+      <div class="keynote-stat-card">
+        <div class="stat-sparkle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#30D158"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="stat-number-row">
+          <span class="stat-number" data-counter-target="100" data-counter-prefix="" data-counter-suffix="%">100%</span>
+        </div>
+        <div class="stat-label">Acolhimento com voluntários dedicados no pátio</div>
+      </div>
+      <div class="keynote-stat-card">
+        <div class="stat-sparkle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#AF52DE"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <div class="stat-number-row">
+          <span class="stat-number" data-counter-target="14" data-counter-prefix="+" data-counter-suffix="">+14</span>
+        </div>
+        <div class="stat-label">Grupos de Crescimento e ministérios ativos em Alphaville</div>
+      </div>
+    </div>
+
+    <!-- B. SUA PRIMEIRA VISITA, COM TRANQUILIDADE -->
+    <section class="portal-section" id="visita">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <span class="section-tag">Acolhimento</span>
+          <h2 class="section-title">Sua primeira visita, com tranquilidade</h2>
+          <p class="section-subtitle">
+            Tudo o que você precisa saber para chegar bem, estacionar com apoio e viver uma experiência enriquecedora com sua família.
+          </p>
+        </div>
+
+        <div class="editorial-steps-grid reveal-stagger">
+          <!-- Passo 1: Localização (Watermark na Esquerda) -->
+          <div class="step-card">
+            <div class="bento-card-watermark watermark-left">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="140" height="140">
+            </div>
+            <div class="step-number">01</div>
+            <h3 class="step-title">Localização de fácil acesso</h3>
+            <p class="step-desc">
+              Estamos na <strong>Avenida Tamboré, 74</strong>, em Alphaville Industrial, Barueri/SP. Próximo à Rodovia Castello Branco e Alameda Rio Negro.
+            </p>
+            <a href="https://maps.google.com/?q=Avenida+Tambor%C3%A9+74+Barueri+SP" target="_blank" rel="noopener noreferrer" class="card-action-link">
+              <span>Traçar rota no Google Maps</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+
+          <!-- Passo 2: Estacionamento (Watermark no Meio) -->
+          <div class="step-card highlight-step">
+            <div class="bento-card-watermark watermark-center">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="140" height="140">
+            </div>
+            <div class="step-number">02</div>
+            <h3 class="step-title">Estacionamento com voluntários</h3>
+            <p class="step-desc">
+              Ao chegar, nossa equipe de voluntários de tráfego orienta as manobras e a organização dos carros no pátio próprio da igreja.
+            </p>
+            <div class="parking-status-notice">
+              <span class="status-indicator-dot" style="background:var(--status-orange);"></span>
+              <span>Disponibilidade em tempo real ainda não monitorada (Projeto em desenvolvimento).</span>
+            </div>
+            <a href="#estacionamento" class="card-action-link" style="margin-top:0.75rem;">
+              <span>Conhecer a iniciativa Lagoinha Parking →</span>
+            </a>
+          </div>
+
+          <!-- Passo 3: Recepção e Família (Watermark na Direita) -->
+          <div class="step-card">
+            <div class="bento-card-watermark watermark-right">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="140" height="140">
+            </div>
+            <div class="step-number">03</div>
+            <h3 class="step-title">Recepção e Espaço Kids</h3>
+            <p class="step-desc">
+              Uma equipe calorosa recebe você no hall. Crianças e adolescentes contam com espaço seguro e dedicado no <strong>Lagoinha Kids</strong> e no <strong>Culto Link</strong> (10 a 13 anos).
+            </p>
+            <span style="font-size:0.78rem; color:var(--text-tertiary);">Check-in infantil disponível na entrada aos domingos (10h e 18h).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRADE DE CULTOS VERIFICADA -->
+    <section class="portal-section section-alt" id="cultos">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <span class="section-tag">Programação</span>
+          <h2 class="section-title">Nossos Cultos Semanais</h2>
+          <p class="section-subtitle">Horários verificados de celebração e ministração da Palavra na Avenida Tamboré, 74 (Consulta oficial em 26/09/2026).</p>
+        </div>
+
+        <div class="schedule-grid reveal-stagger">
+          <!-- Domingo (Direita) -->
+          <div class="schedule-card highlight-card">
+            <div class="bento-card-watermark watermark-right">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="150" height="150">
+            </div>
+            <div class="schedule-day-badge">Domingo</div>
+            <h3 class="schedule-name">Celebração da Família</h3>
+            <div class="schedule-time">10h00 e 18h00</div>
+            <p class="schedule-desc">Celebrações para toda a família com louvor, ministração da Palavra e ministério infantil simultâneo (Kids e Link 10 a 13 anos).</p>
+          </div>
+
+          <!-- Quinta-feira (Esquerda) -->
+          <div class="schedule-card">
+            <div class="bento-card-watermark watermark-left">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="130" height="130">
+            </div>
+            <div class="schedule-day-badge">Quinta-feira</div>
+            <h3 class="schedule-name">Culto Fé</h3>
+            <div class="schedule-time">20h00</div>
+            <p class="schedule-desc">Uma noite de renovação espiritual, clamor e edificação bíblica no meio da semana.</p>
+          </div>
+
+          <!-- Segunda-feira -->
+          <div class="schedule-card">
+            <div class="schedule-day-badge">Segunda-feira</div>
+            <h3 class="schedule-name">Culto Segunda</h3>
+            <div class="schedule-time">20h00</div>
+            <p class="schedule-desc">Comece sua semana em oração, adoração e comunhão com a igreja.</p>
+          </div>
+
+          <!-- Terça-feira -->
+          <div class="schedule-card">
+            <div class="schedule-day-badge">Terça-feira</div>
+            <h3 class="schedule-name">Culto Profético</h3>
+            <div class="schedule-time">20h00</div>
+            <p class="schedule-desc">Reunião dedicada ao ensino aprofundado da Palavra e intercessão.</p>
+          </div>
+
+          <!-- Sábado (Centro) -->
+          <div class="schedule-card">
+            <div class="bento-card-watermark watermark-center">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="130" height="130">
+            </div>
+            <div class="schedule-day-badge">Sábado</div>
+            <h3 class="schedule-name">Jovens & Adolescentes</h3>
+            <div class="schedule-time">19h30 Rocket • 20h00 Legacy</div>
+            <p class="schedule-desc">Juventude dinâmica, unida e apaixonada pelo Evangelho em Alphaville.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. UMA COMUNIDADE PARA CAMINHAR JUNTO -->
+    <section class="portal-section" id="comunidade">
+      <div class="section-container">
+        <div class="editorial-story-layout">
+          <div class="editorial-text-col">
+            <span class="section-tag">Nossa Essência</span>
+            <h2 class="editorial-headline">Uma comunidade para caminhar junto</h2>
+            <p class="editorial-lead">
+              A <strong>Igreja Batista da Lagoinha</strong> nasceu em Belo Horizonte em 1957 com a missão de proclamar o evangelho e cuidar de pessoas.
+            </p>
+            <p class="editorial-body">
+              Em <strong>Alphaville</strong>, vivemos essa vocação diariamente na Avenida Tamboré: uma igreja acolhedora, contemporânea e focada em discipulado prático, fortalecendo famílias, profissionais e jovens para cumprirem o propósito de Deus na sociedade.
+            </p>
+            <div class="editorial-actions">
+              <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <span>Conhecer no Site Oficial</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+              <a href="https://www.instagram.com/lagoinhaalphaville.sp/" target="_blank" rel="noopener noreferrer" class="btn">
+                <span>Instagram @lagoinhaalphaville.sp</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="editorial-media-col reveal" style="--stagger-index:2;">
+            <div class="editorial-quote-card">
+              <div class="bento-card-watermark watermark-tr">
+                <img src="assets/lagoinha_official_emblem.svg" alt="" width="140" height="140">
+              </div>
+              <div class="quote-mark">"</div>
+              <p class="quote-text">
+                A Lagoinha Alphaville quer levar a palavra de Deus para todos, e desta forma, cumprir seu propósito criando novas oportunidades e mudando histórias por meio de Cristo e para Cristo.
+              </p>
+              <div class="quote-author">Propósito institucional</div>
+              <a href="https://www.lagoinhaalphaville.com.br/igreja" target="_blank" rel="noopener noreferrer" class="quote-source">
+                <span>Fonte: lagoinhaalphaville.com.br/igreja (consultado em 26/09/2026)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOSSA COMUNIDADE EM MOVIMENTO: AÇÕES VERIFICADAS -->
+        <div class="section-header reveal" style="margin-top:3.5rem;">
+          <span class="section-tag">Ações Verificadas</span>
+          <h2 class="section-title">Nossa comunidade em movimento</h2>
+          <p class="section-subtitle">
+            Um retrato rápido do que acontece semana a semana em Alphaville, com links diretos para cada canal oficial. Parte da rede Lagoinha, presente em mais de 600 igrejas e cerca de 120 mil membros (dado institucional da rede, não específico desta unidade).
+          </p>
+        </div>
+
+        <div class="verified-actions-band reveal-stagger">
+          <a href="https://www.lagoinhaalphaville.com.br/cultos" target="_blank" rel="noopener noreferrer" class="verified-action-card card-wide">
+            <span class="verified-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4m-2-2h4"/><path d="M18 22V10l-6-4-6 4v12"/><path d="M14 22v-4a2 2 0 0 0-4 0v4"/></svg>
+            </span>
+            <div class="verified-action-title">Cultos desta semana</div>
+            <p class="verified-action-desc">Domingo (10h e 18h), Segunda, Terça e Quinta (20h) e Sábado (19h30 e 20h) — horários verificados na página oficial de cultos.</p>
+            <span class="card-action-link"><span>Ver grade completa e assistir online →</span></span>
+          </a>
+
+          <a href="https://amomeugc.lagoinhaalpha.com.br/" target="_blank" rel="noopener noreferrer" class="verified-action-card">
+            <span class="verified-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </span>
+            <div class="verified-action-title">Grupos de Crescimento</div>
+            <p class="verified-action-desc">Encontros semanais nas casas de Alphaville, Barueri e região.</p>
+            <span class="card-action-link"><span>Encontrar um GC →</span></span>
+          </a>
+
+          <a href="https://batismo.lagoinhaalpha.com.br" target="_blank" rel="noopener noreferrer" class="verified-action-card">
+            <span class="verified-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </span>
+            <div class="verified-action-title">Batismo nas Águas</div>
+            <p class="verified-action-desc">Inscrição e preparação para o próximo batismo em Alphaville.</p>
+            <span class="card-action-link"><span>Quero me batizar →</span></span>
+          </a>
+
+          <a href="https://www.lagoinhaalphaville.com.br/connect" target="_blank" rel="noopener noreferrer" class="verified-action-card">
+            <span class="verified-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <div class="verified-action-title">Voluntariado</div>
+            <p class="verified-action-desc">"Conecte-se conosco e faça parte do nosso time de voluntários."</p>
+            <span class="card-action-link"><span>Quero me conectar →</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- D. ENCONTRE SEU PRÓXIMO PASSO (OFFICIAL BENTO GRID ARCHITECTURE) -->
+    <section class="portal-section section-alt" id="participe">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <span class="section-tag">Próximo Passo</span>
+          <h2 class="section-title">Encontre seu próximo passo</h2>
+          <p class="section-subtitle">A vida da igreja acontece através de pessoas conectadas em relacionamentos genuínos, fé e serviço.</p>
+        </div>
+
+        <div class="bento-participe-grid reveal-stagger">
+          
+          <!-- 1. BENTO HERO CARD: Grupos de Crescimento (GCs - Meio/Direita) -->
+          <div class="bento-item-gc">
+            <div class="bento-card-watermark watermark-center-right">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="220" height="220">
+            </div>
+            <div class="bento-gc-content">
+              <span class="bento-tag-pill">
+                <span class="pill-dot"></span>
+                Comunhão nos Lares
+              </span>
+              <h3 class="bento-title">Grupos de Crescimento (GCs)</h3>
+              <p class="bento-desc">
+                Os GCs são o coração da nossa comunidade: pequenos grupos acolhedores que se reúnem semanalmente nas residências de Alphaville, Barueri, Santana de Parnaíba e Osasco. O lugar perfeito para criar amizades profundas, orar e crescer na Palavra.
+              </p>
+              <div class="bento-actions-row">
+                <a href="https://amomeugc.lagoinhaalpha.com.br/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                  <span>Encontrar um GC Oficial</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+                <a href="https://wa.me/5511961750055?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20Grupos%20de%20Crescimento%20(GCs)%20em%20Alphaville" target="_blank" rel="noopener noreferrer" class="btn">
+                  <span>Dúvidas no WhatsApp</span>
+                </a>
+              </div>
+            </div>
+            <div class="bento-gc-media">
+              <figure class="official-photo">
+                <button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/group.jpg" data-lightbox-caption="Celebrar e caminhar juntos. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Comunidade reunida em celebração">
+                  <img src="assets/official/group.jpg" alt="Comunidade reunida em celebração" width="1440" height="1080" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Celebrar e caminhar juntos. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto oficial ↗</a></figcaption>
+              </figure>
+              <div class="bento-gc-info-strip">
+                <div class="bento-info-box">
+                  <strong>Encontros Semanais</strong>
+                  <span>Nas casas em Alphaville, Barueri e região</span>
+                </div>
+                <div class="bento-info-box">
+                  <strong>Todas as Fases</strong>
+                  <span>Famílias, Jovens, Homens, Mulheres e Casais</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. BENTO CARD: Batismo nas Águas (7 Cols - Esquerda) -->
+          <div class="bento-item-batismo">
+            <div class="bento-card-watermark watermark-left">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
+            </div>
+            <figure class="official-photo">
+              <button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/baptism.webp" data-lightbox-caption="Um novo começo. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Batismo nas Águas">
+                <img src="assets/official/baptism.webp" alt="Celebração de batismo" width="328" height="455" loading="lazy" decoding="async" style="object-fit:cover; border-radius:16px;">
+              </button>
+              <figcaption>Um novo começo. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto oficial ↗</a></figcaption>
+            </figure>
+            <div style="display:flex; flex-direction:column; justify-content:center;">
+              <span class="bento-tag-pill" style="color:var(--accent-blue); background:rgba(255,225,64,0.10); border-color:rgba(255,225,64,0.20);">
+                <span class="pill-dot" style="background:var(--accent-blue); box-shadow:0 0 8px var(--accent-blue);"></span>
+                Passo de Fé
+              </span>
+              <h3 class="bento-title" style="font-size:1.5rem;">Batismo nas Águas</h3>
+              <p class="bento-desc" style="font-size:0.92rem; margin-bottom:1.25rem;">
+                O batismo é a declaração pública da sua fé e entrega a Jesus Cristo. Celebre esse novo ciclo com orientação pastoral e apoio da igreja.
+              </p>
+              <a href="https://batismo.lagoinhaalpha.com.br" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="align-self:flex-start;">
+                <span>Quero me batizar</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 3. BENTO CARD: Seja Membro & Pertença (5 Cols - Direita) -->
+          <div class="bento-item-membro">
+            <div class="bento-card-watermark watermark-right">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
+            </div>
+            <div>
+              <span class="bento-tag-pill" style="color:#AF52DE; background:rgba(175,82,222,0.12); border-color:rgba(175,82,222,0.25);">
+                <span class="pill-dot" style="background:#AF52DE; box-shadow:0 0 8px #AF52DE;"></span>
+                Pertença & Integração
+              </span>
+              <h3 class="bento-title" style="font-size:1.5rem;">Seja Membro</h3>
+              <p class="bento-desc" style="font-size:0.92rem;">
+                Dê o passo para caminhar em aliança. Participe da nossa Classe de Integração e Novos Membros para conhecer a visão, valores e propósitos da Lagoinha Alphaville.
+              </p>
+            </div>
+            <a href="https://www.lagoinhaalphaville.com.br/igreja" target="_blank" rel="noopener noreferrer" class="card-action-link" style="margin-top:1rem;">
+              <span>Conhecer a igreja no site oficial →</span>
+            </a>
+          </div>
+
+          <!-- 4. BENTO CARD: Cursos & Formação Cristã (5 Cols - Centro) -->
+          <div class="bento-item-cursos">
+            <div class="bento-card-watermark watermark-center">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
+            </div>
+            <div>
+              <span class="bento-tag-pill" style="color:#00C7BE; background:rgba(0,199,190,0.12); border-color:rgba(0,199,190,0.25);">
+                <span class="pill-dot" style="background:#00C7BE; box-shadow:0 0 8px #00C7BE;"></span>
+                Maturidade & Discipulado
+              </span>
+              <h3 class="bento-title" style="font-size:1.5rem;">Cursos & Escola Bíblica</h3>
+              <p class="bento-desc" style="font-size:0.92rem; margin-bottom:0.75rem;">
+                Módulos de aprofundamento bíblico, teologia prática e liderança com professores qualificados.
+              </p>
+              <div class="bento-course-tags">
+                <span class="bento-course-badge">Escola Bíblica</span>
+                <span class="bento-course-badge">Carisma</span>
+                <span class="bento-course-badge">Treinamento de Líderes</span>
+                <span class="bento-course-badge">Maturidade</span>
+              </div>
+            </div>
+            <a href="https://www.lagoinhaalphaville.com.br/cursos" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="align-self:flex-start;">
+              <span>Acessar Cursos Oficiais</span>
+            </a>
+          </div>
+
+          <!-- 5. BENTO CARD: Voluntariado & Time de Servos (7 Cols - Esquerda) -->
+          <div class="bento-item-voluntarios">
+            <div class="bento-card-watermark watermark-left">
+              <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
+            </div>
+            <figure class="official-photo">
+              <button type="button" class="gallery-thumb official-photo-trigger" data-lightbox-src="assets/official/volunteers.jpg" data-lightbox-caption="Juntos para servir. · Fonte: site oficial Lagoinha Alphaville" aria-label="Ampliar fotografia: Voluntários da Lagoinha Alphaville">
+                <img src="assets/official/volunteers.jpg" alt="Voluntários reunidos em oração" width="2048" height="1536" loading="lazy" decoding="async" style="object-fit:cover; border-radius:16px;">
+              </button>
+              <figcaption>Juntos para servir. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto oficial ↗</a></figcaption>
+            </figure>
+            <div style="display:flex; flex-direction:column; justify-content:center;">
+              <span class="bento-tag-pill">
+                <span class="pill-dot"></span>
+                Serviço com Propósito
+              </span>
+              <h3 class="bento-title" style="font-size:1.5rem;">Seja um Voluntário</h3>
+              <p class="bento-desc" style="font-size:0.92rem; margin-bottom:1.25rem;">
+                "Conecte-se conosco e faça parte do nosso time de voluntários." Descubra seus dons na recepção, trânsito, kids, louvor, mídia e acolhimento.
+              </p>
+              <a href="https://www.lagoinhaalphaville.com.br/connect" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="align-self:flex-start;">
+                <span>Quero me conectar</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- E. O CUIDADO TAMBÉM ESTÁ NA CHEGADA (LAGOINHA PARKING SHOWCASE) -->
+    <section class="portal-section parking-dark-showcase-section" id="estacionamento">
+      <div class="section-container">
+        <div class="dark-showcase-box">
+          <div class="bento-card-watermark watermark-center-right">
+            <img src="assets/lagoinha_official_emblem.svg" alt="" width="260" height="260">
+          </div>
+          <div class="dark-showcase-text reveal">
+            <span class="dark-showcase-tag">Inovação em Estacionamento</span>
+            <h2 class="dark-showcase-headline">
+              Menos dúvida na entrada.<br>
+              Mais atenção às pessoas.
+            </h2>
+            <p class="dark-showcase-body">
+              Em dias de culto e grandes eventos, as vagas não são demarcadas e dependem da coordenação ágil dos voluntários. O <strong>Lagoinha Parking</strong> é um protótipo independente de inteligência artificial e visão computacional concebido para organizar o fluxo de veículos e acolher melhor cada pessoa que chega.
+            </p>
+
+            <div class="dark-pill-row">
+              <span class="dark-pill">Protótipo independente em calibração</span>
+              <span class="dark-pill">Prioridade do voluntário no local (Human-in-the-loop)</span>
+            </div>
+
+            <div class="dark-showcase-actions">
+              <button class="btn btn-primary" onclick="window.activateParkingApp()">
+                <span>Explorar demonstração</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button class="btn btn-dark-secondary" onclick="window.activateParkingTab('tab-transparency')">
+                <span>Entender o projeto</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="dark-showcase-media-col reveal" style="--stagger-index:2;">
+            <div class="dark-showcase-window" onclick="window.activateParkingApp()" title="Clique para abrir a demonstração interativa">
+              <div class="dark-window-header">
+                <div class="dark-window-dots">
+                  <span class="dark-window-dot dot-red"></span>
+                  <span class="dark-window-dot dot-yellow"></span>
+                  <span class="dark-window-dot dot-green"></span>
+                </div>
+                <div class="dark-window-title">
+                  <img src="assets/lagoinha_official_emblem.svg" alt="" width="14" height="14" style="opacity:0.85;">
+                  <span>Lagoinha Parking • Sistema Inteligente</span>
+                </div>
+              </div>
+              <div class="dark-showcase-media">
+                <img src="assets/prototype_overview.jpg" alt="Captura de tela real do painel de Visão Geral do protótipo Lagoinha Parking, rodando localmente" class="dark-preview-img" loading="lazy" width="1568" height="687">
+                <div class="dark-preview-overlay">
+                  <div style="display:flex; align-items:center; gap:0.45rem; font-weight:700; font-size:0.86rem;">
+                    <span class="status-indicator-dot" style="background:var(--status-green); box-shadow: 0 0 8px var(--status-green);"></span>
+                    Captura real da interface • Não é câmera ao vivo
+                  </div>
+                  <span style="font-size:0.76rem; opacity:0.85;">Demonstração local do protótipo • Clique para interagir</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gallery-strip reveal-stagger" data-gallery="prototipo">
+              <button class="gallery-thumb" type="button" data-lightbox-src="assets/prototype_overview.jpg" data-lightbox-alt="Captura de tela real do painel de Visão Geral do protótipo" data-lightbox-caption="Visão Geral — captura real da interface local. O vídeo de fundo é uma foto ilustrativa gerada por IA (identificada), usada apenas para testar a ergonomia dos painéis; não é uma câmera ao vivo.">
+                <img src="assets/prototype_overview.jpg" alt="Captura de tela real do painel de Visão Geral do protótipo" loading="lazy" width="1568" height="687">
+                <span class="gallery-thumb-zoom-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>
+                <span class="gallery-thumb-caption">Visão Geral</span>
+              </button>
+              <button class="gallery-thumb" type="button" data-lightbox-src="assets/prototype_entrance.jpg" data-lightbox-alt="Captura de tela real do Painel de Direcionamento da Entrada" data-lightbox-caption="Painel de Direcionamento da Entrada — captura real, usada pela equipe posicionada no portão para orientar os motoristas.">
+                <img src="assets/prototype_entrance.jpg" alt="Captura de tela real do Painel de Direcionamento da Entrada" loading="lazy" width="1568" height="687">
+                <span class="gallery-thumb-zoom-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>
+                <span class="gallery-thumb-caption">Painel da Entrada</span>
+              </button>
+              <button class="gallery-thumb" type="button" data-lightbox-src="assets/prototype_editor.jpg" data-lightbox-alt="Captura de tela real do Editor Visual de Polígonos" data-lightbox-caption="Editor Visual de Polígonos — captura real da ferramenta usada para desenhar e ajustar os setores do pátio.">
+                <img src="assets/prototype_editor.jpg" alt="Captura de tela real do Editor Visual de Polígonos" loading="lazy" width="1568" height="687">
+                <span class="gallery-thumb-zoom-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>
+                <span class="gallery-thumb-caption">Editor de Setores</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F. LOCALIZAÇÃO E CONTATO -->
+    <section class="portal-section" id="contato">
+      <div class="section-container">
+        <div class="contact-editorial-layout">
+          <div class="contact-details-col">
+            <span class="section-tag">Contato</span>
+            <h2 class="section-title">Localização & Canais Oficiais</h2>
+            <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.6; margin-bottom:1.5rem;">
+              Venha participar dos nossos cultos presenciais na Avenida Tamboré. Estamos prontos para receber você com carinho.
+            </p>
+
+            <div class="contact-channel-list">
+              <div class="channel-row">
+                <span class="channel-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </span>
+                <div>
+                  <strong>Endereço Verificado (Consulta em 26/09/2026):</strong><br>
+                  Avenida Tamboré, 74 — Alphaville Industrial, Barueri/SP • CEP 06460-000
+                </div>
+              </div>
+
+              <div class="channel-row">
+                <span class="channel-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </span>
+                <div>
+                  <strong>WhatsApp de Atendimento:</strong><br>
+                  <a href="https://wa.me/5511961750055" target="_blank" rel="noopener noreferrer">(11) 96175-0055</a>
+                </div>
+              </div>
+
+              <div class="channel-row">
+                <span class="channel-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </span>
+                <div>
+                  <strong>Instagram Oficial:</strong><br>
+                  <a href="https://www.instagram.com/lagoinhaalphaville.sp/" target="_blank" rel="noopener noreferrer">@lagoinhaalphaville.sp</a>
+                </div>
+              </div>
+
+              <div class="channel-row">
+                <span class="channel-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </span>
+                <div>
+                  <strong>Site Institucional:</strong><br>
+                  <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">lagoinhaalphaville.com.br</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-map-col">
+            <div class="map-action-card">
+              <div class="map-church-badge" style="margin-bottom:0.85rem; display:flex; justify-content:center;">
+                <img src="assets/lagoinha_official_emblem.svg" alt="Lagoinha Alphaville" width="56" height="56" style="display:block;">
+              </div>
+              <h4 style="font-size:1.15rem; font-weight:700; margin-bottom:0.35rem;">Lagoinha Alphaville</h4>
+              <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.25rem;">
+                Avenida Tamboré, 74 • Alphaville Industrial, Barueri/SP
+              </p>
+              <a href="https://maps.google.com/?q=Avenida+Tambor%C3%A9+74+Barueri+SP" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <span>Como Chegar no Google Maps</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ========================================================================
+       EXPERIENCE 2: ÁREA OPERACIONAL DE MONITORAMENTO DO ESTACIONAMENTO
+       ======================================================================== -->
+  <div id="viewParking" class="view-experience">
+
+    <!-- Parking Subheader with Return Button & Segmented Tabs -->
+    <div class="parking-operational-bar">
+      <div class="parking-bar-inner">
+        <button class="btn btn-sm" id="btnReturnToPortal" title="Voltar para a página institucional da igreja">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>Portal da Igreja</span>
+        </button>
+
+        <!-- Navigation Tabs (Apple Segmented Control) -->
+        <nav class="nav-segmented-control" aria-label="Navegação do estacionamento">
+          <button class="nav-tab-btn active" data-tab="tab-overview" id="btnTabOverview">
+            <span class="nav-icon" id="navIconOverview"></span>
+            Visão Geral
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-entrance" id="btnTabEntrance">
+            <span class="nav-icon" id="navIconEntrance"></span>
+            Painel da Entrada
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-volunteer" id="btnTabVolunteer">
+            <span class="nav-icon" id="navIconVolunteer"></span>
+            Terminal Voluntário
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-editor" id="btnTabEditor">
+            <span class="nav-icon" id="navIconEditor"></span>
+            Editor de Setores
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-transparency" id="btnTabTransparency">
+            <span class="nav-icon" id="navIconAbout"></span>
+            Sobre & Dados
+          </button>
+        </nav>
+
+        <!-- Sound Toggle in Operational Mode -->
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <button class="icon-btn" id="btnToggleSound" title="Alternar áudio de resposta dos botões">
+            <span id="soundIconWrapper"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operational Summary KPI Bar -->
+    <section class="summary-bar" aria-label="Resumo Operacional">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span>Veículos na Análise</span>
+          <span id="kpiIconCars"></span>
+        </div>
+        <div class="kpi-value" id="kpiCarsCount">—</div>
+        <div class="kpi-subtext" id="kpiCarsSubtext">Contagem estimada na fonte</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span>Setores em Atenção</span>
+          <span id="kpiIconAttention"></span>
+        </div>
+        <div class="kpi-value" id="kpiAttentionCount">0</div>
+        <div class="kpi-subtext" id="kpiAttentionSubtext">Com tráfego ou pouco espaço</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span>Estado do Sinal</span>
+          <span id="kpiIconConnection"></span>
+        </div>
+        <div class="kpi-value" style="font-size:1.15rem;" id="kpiConnectionStatus">Ativo (Simulação)</div>
+        <div class="kpi-subtext" id="kpiConnectionSubtext">Watchdog operacional</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span>Última Atualização</span>
+          <span id="kpiIconClock"></span>
+        </div>
+        <div class="kpi-value" style="font-size:1.15rem;" id="kpiLastUpdateTime">agora mesmo</div>
+        <div class="kpi-subtext" id="kpiUpdateSubtext">Sincronização contínua</div>
+      </div>
+    </section>
+
+    <!-- Main Parking Workspace -->
+    <main class="main-container">
+
+      <!-- Watchdog Critical Alert Banner -->
+      <div class="stale-warning-banner" id="staleWarningBanner"></div>
+
+      <!-- TAB 1: OVERVIEW & VIDEO -->
+      <section class="tab-pane active" id="tab-overview">
+        <div class="layout-2col">
+          
+          <!-- Left: Video Area (2/3 Width) -->
+          <div class="content-card">
+            <div class="card-heading">
+              <div>
+                <div class="card-title">
+                  <span id="cardIconVideo"></span>
+                  Visualização do Monitoramento
+                </div>
+                <div class="card-subtitle">Perspectiva do pátio • Lagoinha Alphaville</div>
+              </div>
+
+              <!-- Source Tabs -->
+              <div class="source-buttons-group">
+                <button class="btn btn-primary btn-sm" id="btnSourceCctv">Foto Ilustrativa CCTV</button>
+                <button class="btn btn-sm" id="btnSourceSat">Ortofoto Satélite</button>
+                <button class="btn btn-sm" id="btnSourceSynthetic">Simulação 2D</button>
+              </div>
+            </div>
+
+            <!-- Video Canvas Wrapper Container -->
+            <div id="overviewCanvasContainer">
+              <div class="video-wrapper" id="videoWrapper">
+                <canvas id="videoCanvas"></canvas>
+                <div class="video-hud-overlay">
+                  <div id="overlaySource" style="font-weight:600;">FONTE: Demonstração Ilustrativa</div>
+                  <div id="overlayFps" style="color:var(--text-tertiary);">Taxa de atualização: 30 fps</div>
+                  <div id="overlayCars">Veículos na cena: 0</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Discrete Secondary Toolbar: Zoom, Heatmap, Snapshot, Fullscreen -->
+            <div class="camera-toolstrip">
+              <div style="display:flex; gap:0.4rem; align-items:center;">
+                <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Zoom:</span>
+                <button class="btn btn-primary btn-sm" id="btnZoom1x">1.0x</button>
+                <button class="btn btn-sm" id="btnZoom15x">1.5x</button>
+                <button class="btn btn-sm" id="btnZoom2x">2.0x</button>
+              </div>
+
+              <div style="display:flex; gap:0.4rem; align-items:center;">
+                <button class="btn btn-sm" id="btnToggleHeatmap">
+                  <span id="iconHeatmap"></span>
+                  Densidade
+                </button>
+                <button class="btn btn-sm" id="btnExportSnapshot">
+                  <span id="iconSnapshot"></span>
+                  Capturar Imagem
+                </button>
+                <button class="btn btn-sm" id="btnFullscreen">
+                  <span id="iconFullscreen"></span>
+                  Tela Cheia
+                </button>
+              </div>
+            </div>
+
+            <!-- Collapsible Demo Controls Section -->
+            <details class="demo-controls-drawer">
+              <summary class="demo-drawer-summary">
+                <span style="display:flex; align-items:center; gap:0.4rem;">
+                  <span id="iconSliders"></span>
+                  Controles da demonstração e testes de fluxo
+                </span>
+                <span style="font-size:0.75rem; color:var(--text-tertiary);">Expandir / Recolher</span>
+              </summary>
+              
+              <div class="demo-drawer-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                  <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-primary" id="btnSimAddCars">+5 Chegada de Veículos</button>
+                    <button class="btn btn-sm" id="btnSimClearCars">-4 Saída de Veículos</button>
+                    <button class="btn btn-sm" id="btnSimSignalCut">Simular Queda de Câmera</button>
+                  </div>
+
+                  <div style="display:flex; gap:0.4rem; align-items:center;">
+                    <label style="font-size:0.78rem; color:var(--text-secondary); font-weight:500;">Simular Visibilidade:</label>
+                    <select id="selectWeather" style="padding:0.3rem 0.6rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); font-size:0.8rem;">
+                      <option value="clear">Dia Claro (Visibilidade Normal)</option>
+                      <option value="rain">Chuva Forte (Gera Incerteza)</option>
+                      <option value="night">Baixa Iluminação Noturna</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Local Video Upload -->
+                <div style="margin-top:0.5rem; padding:0.75rem; background:var(--bg-surface); border-radius:var(--radius-md); border:1px dashed var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                  <div>
+                    <div style="font-size:0.82rem; font-weight:600;">Carregar vídeo local de teste (.mp4 / .webm):</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary);">Apenas para visualização. Não substitui o detector de inteligência artificial.</div>
+                  </div>
+                  <input type="file" id="localVideoFileInput" accept="video/mp4,video/webm" style="font-size:0.75rem; color:var(--text-secondary);">
+                </div>
+              </div>
+            </details>
+
+          </div>
+
+          <!-- Right: Sector Status Cards (1/3 Width) -->
+          <div class="content-card">
+            <div class="card-heading">
+              <div>
+                <div class="card-title">
+                  <span id="cardIconSectors"></span>
+                  Setores do Estacionamento
+                </div>
+                <div class="card-subtitle">Estado operacional e orientação aos voluntários</div>
+              </div>
+            </div>
+
+            <div class="sectors-container" id="sectorsListOverview">
+              <!-- Dynamic Sector Cards Rendered by app.js -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: ENTRANCE DECISION PANEL (TABLET / GATE VIEW) -->
+      <section class="tab-pane" id="tab-entrance">
+        <div class="content-card">
+          <div class="card-heading">
+            <div>
+              <div class="card-title">
+                <span id="cardIconEntrance"></span>
+                Painel de Direcionamento da Entrada
+              </div>
+              <div class="card-subtitle">Orientação rápida para a equipe posicionada na entrada</div>
+            </div>
+          </div>
+
+          <div style="background:var(--accent-blue-subtle); border:1px solid rgba(255,225,64,0.18); padding:0.85rem 1.25rem; border-radius:var(--radius-md); font-size:0.85rem; color:var(--text-primary); margin-bottom:1rem; line-height:1.5;">
+            <strong>Instruções operacionais:</strong> Direcione os carros para setores com indicação <strong>VERDE</strong>. Setores em <strong>AMARELO</strong> exigem atenção. Caso esteja em <strong>VERMELHO</strong> ou <strong>ROXO (Incerteza)</strong>, verifique presencialmente com o voluntário no pátio antes de liberar.
+          </div>
+
+          <div class="entrance-panel-grid" id="entranceCardsContainer">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: VOLUNTEER MOBILE TERMINAL -->
+      <section class="tab-pane" id="tab-volunteer">
+        <div class="volunteer-mobile-container">
+          <div class="content-card" style="text-align:center;">
+            <div style="font-size:1.15rem; font-weight:700; margin-bottom:0.25rem;">Terminal do Voluntário no Pátio</div>
+            <div style="font-size:0.82rem; color:var(--text-secondary);">
+              Confirme ou corrija a disponibilidade visualmente no local. Suas alterações têm prioridade imediata sobre a análise automática.
+            </div>
+          </div>
+
+          <div id="volunteerSectorsList" style="display:flex; flex-direction:column; gap:1rem;">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: POLYGON EDITOR -->
+      <section class="tab-pane" id="tab-editor">
+        <div class="layout-2col">
+          <div class="content-card">
+            <div class="card-heading">
+              <div class="card-title">
+                <span id="cardIconEditor"></span>
+                Editor Visual de Polígonos
+              </div>
+            </div>
+
+            <div style="background:var(--bg-surface-secondary); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:0.85rem 1rem; font-size:0.82rem; color:var(--text-secondary); margin-bottom:1rem; line-height:1.5;">
+              <strong>Como ajustar as zonas:</strong> Selecione o setor ao lado. Clique e arraste os pontos no canvas para ajustar a geometria. Dê um <strong>duplo clique</strong> sobre a imagem para adicionar um novo vértice.
+            </div>
+
+            <div id="editorCanvasContainer">
+              <!-- Canvas is moved here dynamically when in editor tab -->
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="card-heading">
+              <div class="card-title">Configurar Setores</div>
+              <button class="btn btn-primary btn-sm" onclick="window.addNewZonePrompt()">+ Novo Setor</button>
+            </div>
+
+            <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:0.5rem;">
+              Setores cadastrados:
+            </div>
+            <div class="source-selection-bar" id="editorZonesList" style="margin-bottom:1rem;">
+              <!-- Zone pills rendered by app.js -->
+            </div>
+
+            <div id="activeZoneForm">
+              <!-- Active zone form rendered by app.js -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: ABOUT & TRANSPARENCY -->
+      <section class="tab-pane" id="tab-transparency">
+        <div class="content-card">
+          <div class="card-heading">
+            <div>
+              <div class="card-title">
+                <span id="cardIconAboutTab"></span>
+                Sobre o Projeto & Transparência dos Dados
+              </div>
+              <div class="card-subtitle">Protótipo independente para a Lagoinha Alphaville</div>
+            </div>
+          </div>
+
+          <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin-bottom:1.25rem;">
+            Este software é um <strong>protótipo independente</strong> de engenharia de software e visão computacional, desenvolvido para propor uma solução ao desafio real de organização de tráfego na <strong>Igreja Lagoinha Alphaville</strong> (Avenida Tamboré, 74, Barueri/SP), onde as vagas não são pintadas e dependem da coordenação de voluntários.
+          </p>
+
+          <div class="about-grid">
+            <div class="about-card" style="border-top:3px solid var(--status-green);">
+              <h4>
+                <span id="iconCheckAbout"></span>
+                1. O que está implementado e funcional
+              </h4>
+              <p>
+                • Arquitetura completa com API REST local.<br>
+                • Delimitação geométrica de setores, corredores e áreas restritas por polígonos editáveis.<br>
+                • Sistema <em>Human-in-the-Loop</em> com precedência e expiração automática de 5 minutos.<br>
+                • Watchdog de perda de telemetria e invalidação imediata de sinal estagnado (>20s).<br>
+                • Classificação espacial sem assunção ingênua de contagem exata.
+              </p>
+            </div>
+
+            <div class="about-card" style="border-top:3px solid var(--status-orange);">
+              <h4>
+                <span id="iconSlidersAbout"></span>
+                2. O que está em modo de simulação
+              </h4>
+              <p>
+                • A geração de tráfego no canvas é procedural para fins de teste de usabilidade.<br>
+                • As fotos aéreas e de segurança usadas dentro do simulador são <strong>geradas por Inteligência Artificial</strong> (identificadas por marca d'água digital C2PA/SynthID), servindo apenas para validar a ergonomia dos painéis — nunca apresentadas como fotografia real da igreja.<br>
+                • A reprodução de vídeo local MP4 é apenas visualização, sem inferência de IA acoplada no browser.
+              </p>
+            </div>
+
+            <div class="about-card" style="border-top:3px solid var(--status-purple);">
+              <h4>
+                <span id="iconAlertAbout"></span>
+                3. O que depende de validação presencial
+              </h4>
+              <p>
+                • Acesso e integração aos streams RTSP das câmeras fixas do estacionamento.<br>
+                • Calibração de homografia (matriz de perspectiva de 4 pontos métricos).<br>
+                • Ajuste de oclusões causadas pela marquise e vegetação perimetral.
+              </p>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-surface-secondary); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:1.25rem; margin-top:1.5rem;">
+            <h4 style="font-size:0.92rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-primary);">
+              Canais Oficiais da Igreja Lagoinha Alphaville
+            </h4>
+            <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">
+              Para informações sobre cultos e eventos presenciais, consulte os canais oficiais:<br>
+              • <strong>Instagram Oficial:</strong> <a href="https://www.instagram.com/lagoinhaalphaville.sp/" target="_blank" rel="noopener noreferrer">@lagoinhaalphaville.sp</a><br>
+              • <strong>Site Institucional:</strong> <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">lagoinhaalphaville.com.br</a><br>
+              • <strong>Endereço:</strong> Avenida Tamboré, 74 — Alphaville, Barueri/SP.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================
+       GLOBAL APPLE CLEAN FOOTER
+       ======================================================================== -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap;">
+        <img src="assets/lagoinha_alphaville_official_logo.png" alt="Lagoinha Alphaville" height="32" style="height:32px; width:auto; object-fit:contain;">
+        <div class="footer-copy-text">
+          <strong>Lagoinha Alphaville</strong> • Protótipo independente de experiência digital para a Lagoinha Alphaville (Av. Tamboré, 74, Barueri/SP).
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/lagoinhaalphaville.sp/" target="_blank" rel="noopener noreferrer">
+          Instagram @lagoinhaalphaville.sp
+        </a>
+        <span>•</span>
+        <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">
+          lagoinhaalphaville.com.br
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       GALERIA: LIGHTBOX (progressive enhancement — imagens já visíveis sem JS)
+       ======================================================================== -->
+  <div class="lightbox-overlay" id="lightboxOverlay" hidden>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Visualização ampliada da imagem">
+      <button class="lightbox-close" type="button" aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="lightbox-nav lightbox-prev" type="button" aria-label="Imagem anterior">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <figure class="lightbox-figure">
+        <img class="lightbox-image" src="" alt="">
+        <figcaption class="lightbox-caption"></figcaption>
+      </figure>
+      <button class="lightbox-nav lightbox-next" type="button" aria-label="Próxima imagem">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Véu de transição entre Portal e Estacionamento (motion-system.js) -->
+  <div id="viewTransitionCover" aria-hidden="true"></div>
+
+  <!-- Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/audio-effects.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/polygon-editor.js"></script>
+  <script src="js/detector-mock.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/gallery-lightbox.js"></script>
+<script src="js/parking-polish.js"></script>
+<script src="js/motion-system.js"></script>
+</body>
+</html>

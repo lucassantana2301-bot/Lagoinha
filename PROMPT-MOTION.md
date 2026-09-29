@@ -1,0 +1,7 @@
+# Direção criativa — Uma chegada que importa
+
+Atue como diretor de arte e engenheiro de frontend sênior. Transforme o portal Lagoinha Alphaville em uma experiência editorial cinematográfica: acolhedora, expressiva e fluida. Preserve as fotografias reais, a identidade escura com acentos luminosos e a clareza dos caminhos para visitar, participar e chegar à igreja.
+
+Coreografe a primeira dobra: identificação, headline, texto e ações entram em sequência; a fotografia emerge com perspectiva suave. Faça cada seção surgir quando realmente entrar na tela, com títulos revelados por máscara e cards escalonados. Use paralaxe discreta nas fotografias para criar profundidade durante a rolagem. Acrescente navegação lateral por capítulos com indicação da seção atual e uma linha de progresso no topo. Refine botões com deslocamento magnético, setas reativas e feedback de clique; mantenha iluminação e inclinação sutis nos cards.
+
+O ritmo deve alternar momentos expressivos e áreas calmas para leitura. Preserve o scroll nativo, links, textos, galeria e funcionamento do estacionamento. Não invente métricas nem anime dados operacionais a cada atualização. Use o sistema de movimento existente, sem instalar bibliotecas ou duplicar motores. Atualize efeitos de scroll somente em resposta a eventos, com requestAnimationFrame. Mantenha o conteúdo acessível sem JavaScript, revele controles ao receberem foco e respeite prefers-reduced-motion. Simplifique os efeitos no celular. Valide sintaxe e regressões existentes antes de entregar.

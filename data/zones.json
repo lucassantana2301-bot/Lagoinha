@@ -1,0 +1,58 @@
+[
+  {
+    "id": "setor-a",
+    "name": "Setor A (Pátio Principal / Esquerdo)",
+    "type": "parking",
+    "color": "#22c55e",
+    "points": [
+      { "x": 0.02, "y": 0.38 },
+      { "x": 0.48, "y": 0.38 },
+      { "x": 0.48, "y": 0.98 },
+      { "x": 0.02, "y": 0.98 }
+    ],
+    "maxEstimatedCapacity": 24,
+    "confidenceThreshold": 0.70
+  },
+  {
+    "id": "setor-b",
+    "name": "Setor B (Pátio Lateral / Direito)",
+    "type": "parking",
+    "color": "#3b82f6",
+    "points": [
+      { "x": 0.60, "y": 0.38 },
+      { "x": 0.98, "y": 0.38 },
+      { "x": 0.98, "y": 0.98 },
+      { "x": 0.60, "y": 0.98 }
+    ],
+    "maxEstimatedCapacity": 22,
+    "confidenceThreshold": 0.70
+  },
+  {
+    "id": "corredor-central",
+    "name": "Corredor Central de Manobra",
+    "type": "corridor",
+    "color": "#eab308",
+    "points": [
+      { "x": 0.48, "y": 0.32 },
+      { "x": 0.60, "y": 0.32 },
+      { "x": 0.60, "y": 0.98 },
+      { "x": 0.48, "y": 0.98 }
+    ],
+    "maxEstimatedCapacity": 0,
+    "confidenceThreshold": 0.85
+  },
+  {
+    "id": "area-bloqueada",
+    "name": "Fachada Lagoinha / Área de Pedestres",
+    "type": "restricted",
+    "color": "#ef4444",
+    "points": [
+      { "x": 0.05, "y": 0.12 },
+      { "x": 0.46, "y": 0.12 },
+      { "x": 0.46, "y": 0.35 },
+      { "x": 0.05, "y": 0.35 }
+    ],
+    "maxEstimatedCapacity": 0,
+    "confidenceThreshold": 0.90
+  }
+]

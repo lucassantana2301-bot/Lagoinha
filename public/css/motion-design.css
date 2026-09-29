@@ -1,0 +1,727 @@
+﻿/* ==========================================================================
+   LAGOINHA MOTION DESIGN SYSTEM
+   Senior Creative Developer · Motion Design Engineer · Interaction Designer
+   
+   LINGUAGEM DE MOVIMENTO:
+   - Micro:    100-250ms  ease-out-expo
+   - UI:       200-450ms  ease-spring  
+   - Reveal:   500-800ms  ease-out-quart
+   - Cinema:   900-1800ms ease-out-expo
+   - Ambient:  infinito   ease-in-out
+   
+   GPU-FIRST: apenas transform + opacity + filter
+   ========================================================================== */
+
+/* ── TOKEN SYSTEM ─────────────────────────────────────────────── */
+:root {
+  /* Durations */
+  --dur-micro:   150ms;
+  --dur-ui:      280ms;
+  --dur-reveal:  650ms;
+  --dur-cinma:   1100ms;
+  --dur-slow:    1800ms;
+
+  /* Easings */
+  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in:     cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-smooth: cubic-bezier(0.45, 0, 0.15, 1);
+
+  /* Stagger base */
+  --stagger-base: 80ms;
+}
+
+/* ── 1. HERO CINEMATIC REVEAL SEQUENCE ───────────────────────── */
+
+/* Estado inicial — tudo invisível e posicionado */
+.ms-hero-eyebrow {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(4px);
+}
+.ms-hero-line {
+  display: block;
+  overflow: hidden;
+  clip-path: inset(0 100% 0 0);
+}
+.ms-hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(120%) skewY(4deg);
+  will-change: transform, opacity;
+}
+.ms-hero-sub {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(3px);
+}
+.ms-hero-cta {
+  opacity: 0;
+  transform: translateY(24px) scale(0.94);
+}
+.ms-hero-image {
+  opacity: 0;
+  transform: translateX(40px) scale(0.96);
+  filter: blur(6px);
+}
+.ms-hero-badge {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.9);
+  filter: blur(2px);
+}
+
+/* Estado ATIVO (adicionado por JS) */
+.ms-hero-eyebrow.ms-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo),
+              filter 500ms var(--ease-expo);
+  transition-delay: 0.1s;
+}
+
+.ms-hero-line.ms-active {
+  clip-path: inset(0 0% 0 0);
+  transition: clip-path var(--dur-cinma) var(--ease-expo);
+  transition-delay: 0.25s;
+}
+
+.ms-hero-word.ms-active {
+  opacity: 1;
+  transform: translateY(0) skewY(0);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-spring);
+}
+
+.ms-hero-sub.ms-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo),
+              filter 400ms var(--ease-expo);
+  transition-delay: 0.55s;
+}
+
+.ms-hero-cta.ms-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-spring);
+  transition-delay: 0.7s;
+}
+
+.ms-hero-image.ms-active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+  transition: opacity var(--dur-cinma) var(--ease-expo),
+              transform var(--dur-cinma) var(--ease-expo),
+              filter 800ms var(--ease-expo);
+  transition-delay: 0.35s;
+}
+
+.ms-hero-badge.ms-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: opacity 400ms var(--ease-spring),
+              transform 500ms var(--ease-spring),
+              filter 300ms ease;
+  transition-delay: 0.15s;
+}
+
+/* ── 2. KINETIC TYPOGRAPHY — WORD REVEAL ─────────────────────── */
+.ms-word-reveal {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.ms-word-reveal-inner {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  will-change: transform, opacity;
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-spring);
+}
+
+.ms-word-reveal.ms-active .ms-word-reveal-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 3. MASK LINE REVEAL (Seções de Headline) ────────────────── */
+.ms-line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+.ms-line-mask-inner {
+  display: block;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo);
+  will-change: transform, opacity;
+}
+
+.ms-line-mask.ms-active .ms-line-mask-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 4. SCROLL REVEAL — SISTEMA UNIFICADO ────────────────────── */
+/* Substitui o sistema anterior por versão mais refinada */
+.ms-reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.ms-reveal[data-ms="fade-up"] {
+  transform: translateY(30px);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo);
+}
+
+.ms-reveal[data-ms="fade-left"] {
+  transform: translateX(-30px);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo);
+}
+
+.ms-reveal[data-ms="fade-right"] {
+  transform: translateX(30px);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo);
+}
+
+.ms-reveal[data-ms="scale-up"] {
+  transform: scale(0.88) translateY(20px);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-spring);
+}
+
+.ms-reveal[data-ms="blur-up"] {
+  transform: translateY(24px);
+  filter: blur(10px);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-expo),
+              filter var(--dur-reveal) var(--ease-expo);
+}
+
+.ms-reveal.ms-active {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Stagger automático */
+.ms-stagger > .ms-reveal:nth-child(1) { transition-delay: calc(var(--stagger-base) * 0); }
+.ms-stagger > .ms-reveal:nth-child(2) { transition-delay: calc(var(--stagger-base) * 1); }
+.ms-stagger > .ms-reveal:nth-child(3) { transition-delay: calc(var(--stagger-base) * 2); }
+.ms-stagger > .ms-reveal:nth-child(4) { transition-delay: calc(var(--stagger-base) * 3); }
+.ms-stagger > .ms-reveal:nth-child(5) { transition-delay: calc(var(--stagger-base) * 4); }
+.ms-stagger > .ms-reveal:nth-child(6) { transition-delay: calc(var(--stagger-base) * 5); }
+.ms-stagger > .ms-reveal:nth-child(7) { transition-delay: calc(var(--stagger-base) * 6); }
+.ms-stagger > .ms-reveal:nth-child(8) { transition-delay: calc(var(--stagger-base) * 7); }
+
+/* ── 5. CARDS — PRESENÇA FÍSICA ──────────────────────────────── */
+.ms-card {
+  transition:
+    transform var(--dur-ui) var(--ease-expo),
+    box-shadow var(--dur-ui) var(--ease-expo),
+    border-color var(--dur-ui) ease !important;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.ms-card:hover {
+  transform: translateY(-6px) scale(1.012);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,225,64,0.2),
+    0 0 40px rgba(255,225,64,0.08) !important;
+}
+
+.ms-card:active {
+  transform: translateY(-2px) scale(1.005) !important;
+  transition-duration: 100ms !important;
+}
+
+/* Card Inner Glow (cursor-aware via CSS vars) */
+.ms-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 200px at var(--ms-mouse-x, 50%) var(--ms-mouse-y, 50%),
+    rgba(255, 225, 64, 0.12),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  z-index: 1;
+}
+
+.ms-card-glow:hover::before {
+  opacity: 1;
+}
+
+/* ── 6. MAGNETIC BUTTON ───────────────────────────────────────── */
+.ms-magnetic {
+  display: inline-flex;
+  will-change: transform;
+  transition: transform var(--dur-ui) var(--ease-spring),
+              box-shadow var(--dur-ui) ease !important;
+}
+
+/* ── 7. SECTION TRANSITION — CONTINUIDADE ────────────────────── */
+.ms-section-transition {
+  position: relative;
+  overflow: visible;
+}
+
+/* Gradient blend entre seções */
+.ms-section-blend-top {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--bg-page));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ms-section-blend-bot {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, transparent, var(--bg-page));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── 8. SCROLL PROGRESS HEADLINE ─────────────────────────────── */
+.ms-scroll-headline {
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.25) calc(var(--ms-scroll-progress, 0) * 100%),
+    #FFFFFF calc(var(--ms-scroll-progress, 0) * 100%),
+    #FFE140 100%
+  );
+  transition: background-image 0ms linear;
+}
+
+/* ── 9. HERO BACKGROUND — ATMOSPHERIC DEPTH ─────────────────── */
+.ms-bg-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Atmospheric light halo */
+.ms-hero-atmosphere {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 80%;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(255, 225, 64, 0.06) 0%,
+    rgba(255, 180, 0, 0.03) 40%,
+    transparent 70%
+  );
+  animation: msAtmosphereBreath 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes msAtmosphereBreath {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50%       { opacity: 1;   transform: translateX(-50%) scale(1.08); }
+}
+
+/* Hero Light Grid */
+.ms-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,225,64,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,225,64,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 80%);
+  animation: msGridDrift 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes msGridDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 60px 60px, 60px 60px; }
+}
+
+/* ── 10. KPI CARDS — DASHBOARD MOTION ────────────────────────── */
+.ms-kpi-update {
+  animation: msKpiPop 400ms var(--ease-spring) forwards;
+}
+
+@keyframes msKpiPop {
+  0%   { transform: scale(1); color: var(--text-primary); }
+  40%  { transform: scale(1.06); color: #FFE140; }
+  100% { transform: scale(1); color: var(--text-primary); }
+}
+
+/* KPI Transition Flash */
+.ms-kpi-flash {
+  animation: msKpiFlash 600ms var(--ease-expo) forwards;
+}
+
+@keyframes msKpiFlash {
+  0%   { box-shadow: 0 0 0 rgba(255,225,64,0); }
+  30%  { box-shadow: 0 0 30px rgba(255,225,64,0.35), 0 0 0 1px rgba(255,225,64,0.4); }
+  100% { box-shadow: none; }
+}
+
+/* ── 11. VERIFIED ACTIONS — BAND ENTRANCE ────────────────────── */
+.ms-band-item {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity var(--dur-reveal) var(--ease-expo),
+              transform var(--dur-reveal) var(--ease-spring);
+  will-change: opacity, transform;
+}
+
+.ms-band-item.ms-active {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 12. SECTION TITLE — SPLIT REVEAL ────────────────────────── */
+.ms-title-split {
+  overflow: hidden;
+  display: block;
+}
+
+.ms-title-split-inner {
+  display: block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition:
+    transform var(--dur-reveal) var(--ease-spring),
+    opacity var(--dur-reveal) var(--ease-expo);
+  will-change: transform;
+}
+
+.ms-title-split.ms-active .ms-title-split-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ── 13. PARKING SHOWCASE — WINDOW REVEAL ────────────────────── */
+.ms-window-enter {
+  opacity: 0;
+  transform: perspective(1200px) rotateX(8deg) translateY(30px) scale(0.96);
+  transition:
+    opacity var(--dur-cinma) var(--ease-expo),
+    transform var(--dur-cinma) var(--ease-expo);
+  will-change: transform, opacity;
+}
+
+.ms-window-enter.ms-active {
+  opacity: 1;
+  transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1);
+}
+
+/* ── 14. MARQUEE VELOCITY CONTROL ────────────────────────────── */
+.ms-marquee-scroll {
+  --marquee-speed: 30s;
+  animation: msMarqueeFlow var(--marquee-speed) linear infinite;
+}
+
+.ms-marquee-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes msMarqueeFlow {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── 15. ICON ENTRANCE ────────────────────────────────────────── */
+.ms-icon-pop {
+  animation: msIconPop 500ms var(--ease-spring) both;
+}
+
+@keyframes msIconPop {
+  from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* ── 16. GLOW PULSE — SECTION ANCHORS ───────────────────────── */
+.ms-anchor-glow {
+  position: relative;
+}
+
+.ms-anchor-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,225,64,0.5), transparent);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.ms-anchor-glow:hover::after { opacity: 1; }
+
+/* ── 17. STEP NUMBER — COUNTER REVEAL ────────────────────────── */
+.ms-step-number {
+  opacity: 0;
+  transform: scale(0.6) translateY(10px);
+  transition: opacity 400ms var(--ease-expo),
+              transform 500ms var(--ease-spring);
+}
+
+.ms-step-number.ms-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ── 18. TAB TRANSITIONS (Dashboard) ────────────────────────── */
+.ms-tab-enter {
+  animation: msTabSlide 350ms var(--ease-expo) both;
+}
+
+@keyframes msTabSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 19. STAT CARD ENTRANCE SEQUENCE ─────────────────────────── */
+.ms-stat-card {
+  opacity: 0;
+  transform: translateY(24px) scale(0.94);
+  transition:
+    opacity var(--dur-reveal) var(--ease-expo),
+    transform var(--dur-reveal) var(--ease-spring);
+  will-change: transform, opacity;
+}
+
+.ms-stat-card.ms-active {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 20. SCROLL PROGRESS LINE (lateral) ─────────────────────── */
+#msScrollLine {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0%;
+  background: linear-gradient(180deg, #FFE140, #FFD020);
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 2px 0 12px rgba(255,225,64,0.5);
+  transition: height 0.08s linear;
+}
+
+/* ── 21. PINNED SEQUENCE — PARKING REVEAL ───────────────────── */
+.ms-pinned-sequence {
+  position: relative;
+}
+
+/* ── 22. AMBIENT HERO — FLOATING ELEMENTS ────────────────────── */
+@keyframes msSoftFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(0.5deg); }
+  66%       { transform: translateY(-4px) rotate(-0.5deg); }
+}
+
+.ms-float-gentle {
+  animation: msSoftFloat 7s ease-in-out infinite;
+}
+
+.ms-float-gentle:nth-child(2) { animation-duration: 9s; animation-delay: -3s; }
+.ms-float-gentle:nth-child(3) { animation-duration: 11s; animation-delay: -6s; }
+
+/* ── 23. CURSOR SPOTLIGHT (overlay layer) ────────────────────── */
+#msCursorSpot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99990;
+  width: 500px;
+  height: 500px;
+  margin: -250px 0 0 -250px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,225,64,0.06) 0%,
+    rgba(255,200,0,0.02) 40%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+/* ── 24. HERO GRADIENT TEXT — SHIMMER LIVE ───────────────────── */
+.ms-gradient-live {
+  background: linear-gradient(
+    120deg,
+    #FFFFFF 0%,
+    #FFEB80 25%,
+    #FFE140 45%,
+    #FFEB80 65%,
+    #FFFFFF 90%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: msGradientShimmer 6s ease-in-out infinite;
+}
+
+@keyframes msGradientShimmer {
+  0%   { background-position: 100% 50%; }
+  50%  { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ── 25. SCROLL-DRIVEN PARALLAX LAYERS ──────────────────────── */
+.ms-parallax { will-change: transform; }
+
+/* ── 26. WOW 02 — BIG SCROLL QUOTE ───────────────────────────── */
+.ms-wow-quote {
+  opacity: 0;
+  transform: scale(0.92) translateY(30px);
+  filter: blur(6px);
+  transition:
+    opacity 1s var(--ease-expo),
+    transform 1s var(--ease-expo),
+    filter 0.8s ease;
+}
+
+.ms-wow-quote.ms-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+/* ── 27. WOW 03 — STEP SEQUENCE (Pinned Feel) ────────────────── */
+.ms-step-sequence .step-card {
+  transition:
+    opacity 600ms var(--ease-expo),
+    transform 700ms var(--ease-spring),
+    box-shadow 400ms ease !important;
+}
+
+/* ── 28. WOW 04 — PARKING WINDOW PERSPECTIVE ─────────────────── */
+.ms-parking-reveal {
+  perspective: 1400px;
+}
+
+/* ── 29. SECTION PROGRESS DOTS ───────────────────────────────── */
+#msSectionDots {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.ms-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,225,64,0.3);
+  transition: all 300ms var(--ease-expo);
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.ms-dot.active {
+  width: 6px;
+  height: 22px;
+  border-radius: 3px;
+  background: #FFE140;
+  box-shadow: 0 0 10px rgba(255,225,64,0.6);
+}
+
+/* ── 30. REDUCED MOTION ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ms-hero-eyebrow,
+  .ms-hero-line,
+  .ms-hero-word,
+  .ms-hero-sub,
+  .ms-hero-cta,
+  .ms-hero-image,
+  .ms-hero-badge,
+  .ms-word-reveal-inner,
+  .ms-line-mask-inner,
+  .ms-reveal,
+  .ms-band-item,
+  .ms-title-split-inner,
+  .ms-window-enter,
+  .ms-stat-card,
+  .ms-step-number,
+  .ms-wow-quote {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+
+  .ms-hero-atmosphere,
+  .ms-hero-grid,
+  .ms-float-gentle,
+  .ms-gradient-live {
+    animation: none !important;
+  }
+
+  #msScrollLine,
+  #msCursorSpot,
+  #msSectionDots { display: none !important; }
+}
+
+/* ── 31. MOBILE OPTIMIZATION ─────────────────────────────────── */
+@media (max-width: 768px) {
+  #msCursorSpot  { display: none !important; }
+  #msSectionDots { display: none !important; }
+  
+  .ms-hero-image {
+    transition-delay: 0.2s !important;
+  }
+  
+  .ms-card:hover {
+    transform: translateY(-3px) !important;
+  }
+  
+  .ms-parallax {
+    transform: none !important;
+  }
+}
