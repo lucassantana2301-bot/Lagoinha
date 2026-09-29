@@ -31,8 +31,6 @@
   --bgsys-noise-opacity: 0.035;
 
   /* Atualizadas por motion-system.js — nunca por loop contínuo */
-  --bgsys-mx: 0px;
-  --bgsys-my: 0px;
   --scroll-progress: 0;
 }
 
@@ -44,12 +42,6 @@
 /* --------------------------------------------------------------------------
    0. BASE — respeita prefers-reduced-motion em tudo que este arquivo define
    -------------------------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .bg-blob {
-    animation: none !important;
-  }
-}
 
 /* --------------------------------------------------------------------------
    1. CAMADA DE PROFUNDIDADE DE FUNDO (fixa, atrás de tudo)
@@ -74,19 +66,6 @@
   z-index: 1;
 }
 
-.bg-mesh {
-  position: absolute;
-  inset: -10%;
-  background:
-    radial-gradient(38% 42% at 14% 18%, color-mix(in srgb, var(--bgsys-blue) 20%, transparent) 0%, transparent 70%),
-    radial-gradient(32% 36% at 88% 8%, color-mix(in srgb, var(--bgsys-gold) 16%, transparent) 0%, transparent 72%),
-    radial-gradient(46% 50% at 78% 92%, color-mix(in srgb, var(--bgsys-violet) 14%, transparent) 0%, transparent 74%),
-    radial-gradient(40% 44% at 8% 86%, color-mix(in srgb, var(--bgsys-blue) 12%, transparent) 0%, transparent 74%);
-  transform: translate3d(calc(var(--bgsys-mx) * 0.4), calc(var(--bgsys-my) * 0.4), 0);
-  transition: transform 1.4s var(--ease-out-soft);
-  will-change: transform;
-}
-
 .bg-noise {
   position: absolute;
   inset: 0;
@@ -102,60 +81,8 @@
   background: radial-gradient(120% 90% at 50% 8%, transparent 55%, color-mix(in srgb, var(--bg-page) 55%, transparent) 100%);
 }
 
-.bg-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.5;
-  will-change: transform;
-  animation: bgsys-float 26s var(--ease-in-out-premium) infinite alternate;
-}
-
-.bg-blob-1 {
-  top: -6%; left: 4%;
-  width: clamp(260px, 30vw, 460px); height: clamp(260px, 30vw, 460px);
-  background: radial-gradient(circle, color-mix(in srgb, var(--bgsys-blue) 55%, transparent) 0%, transparent 70%);
-  animation-duration: 24s;
-}
-
-.bg-blob-2 {
-  top: 8%; right: 6%;
-  width: clamp(220px, 24vw, 380px); height: clamp(220px, 24vw, 380px);
-  background: radial-gradient(circle, color-mix(in srgb, var(--bgsys-gold) 42%, transparent) 0%, transparent 72%);
-  animation-duration: 32s; animation-delay: -6s;
-}
-
-.bg-blob-3 {
-  bottom: -8%; left: 34%;
-  width: clamp(280px, 32vw, 520px); height: clamp(280px, 32vw, 520px);
-  background: radial-gradient(circle, color-mix(in srgb, var(--bgsys-violet) 38%, transparent) 0%, transparent 72%);
-  animation-duration: 30s; animation-delay: -12s;
-}
-
-/* Camadas com "distância" diferente = paralaxe físico (seção 08/26 do briefing).
-   --bgsys-scroll-* é escrito pelo JS uma vez por frame de scroll (throttle rAF). */
-.bg-blob-1 { transform: translate3d(0, calc(var(--bgsys-scroll-slow, 0px)), 0); }
-.bg-blob-2 { transform: translate3d(0, calc(var(--bgsys-scroll-slow, 0px) * -0.7), 0); }
-.bg-blob-3 { transform: translate3d(0, calc(var(--bgsys-scroll-slow, 0px) * 0.55), 0); }
-
-@keyframes bgsys-float {
-  0% { transform: scale(1) translateY(0); }
-  100% { transform: scale(1.08) translateY(-14px); }
-}
 
 
-/* --------------------------------------------------------------------------
-   2. ATMOSFERA POR CAPÍTULO (data-atmosphere, setado por IntersectionObserver)
-   -------------------------------------------------------------------------- */
-
-#bgSystem { transition: filter 0.9s var(--ease-out-soft); }
-
-#bgSystem[data-atmosphere="estacionamento"] .bg-blob-2 { opacity: 0.28; }
-#bgSystem[data-atmosphere="estacionamento"] { filter: saturate(1.08); }
-#bgSystem[data-atmosphere="contato"] .bg-mesh,
-#bgSystem[data-atmosphere="participe"] .bg-mesh {
-  transform: translate3d(calc(var(--bgsys-mx) * 0.4 - 2%), calc(var(--bgsys-my) * 0.4 + 2%), 0);
-}
 
 /* --------------------------------------------------------------------------
    3. REVELAÇÃO POR SCROLL — segura (progressive enhancement)
@@ -473,8 +400,6 @@
 
 @media (max-width: 900px) {
   .bg-noise { opacity: 0.35; }
-  .bg-blob { filter: blur(46px); opacity: 0.35; }
-  .bg-blob-3 { display: none; }
   .step-card::after, .schedule-card::after, .kpi-card::after,
   .verified-action-card::after, .content-card::after,
   .bento-item-gc::after, .bento-item-batismo::after, .bento-item-membro::after,
@@ -486,13 +411,10 @@
 
 @media (max-width: 640px) {
   .bg-noise { display: none; }
-  .bg-blob { animation: none; filter: blur(34px); }
-  .bg-mesh { transform: none !important; }
-  .bg-blob-1, .bg-blob-2, .bg-blob-3 { transform: none !important; }
 }
 
 @media (prefers-contrast: more) {
-  .bg-mesh, .bg-blob, .bg-noise, .hero-headline::before {
+  .bg-noise, .hero-headline::before {
     display: none;
   }
   .section-alt, .parking-dark-showcase-section {
@@ -549,81 +471,6 @@
 .chapter-link:hover span, .chapter-link:focus-visible span { opacity: 1; translate: 0; }
 .chapter-link:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
 #viewPortal section[id] { scroll-margin-top: 100px; }
-
-/* ── KINETIC INFINITE MARQUEE TICKER ────────────────────────────── */
-.lando-marquee-section {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  padding: 1.1rem 0;
-  margin: 1.5rem 0 3.5rem;
-  background: rgba(10, 10, 15, 0.7);
-  border-top: 1px solid rgba(255, 225, 64, 0.16);
-  border-bottom: 1px solid rgba(255, 225, 64, 0.16);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  z-index: 2;
-}
-
-.lando-marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-  animation: landoMarquee 35s linear infinite;
-}
-
-.lando-marquee-section:hover .lando-marquee-track,
-.lando-marquee-section:focus-within .lando-marquee-track {
-  animation-play-state: paused;
-}
-
-.lando-marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 1.75rem;
-  padding-right: 1.75rem;
-  white-space: nowrap;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.88);
-  flex-shrink: 0;
-}
-
-.marquee-accent {
-  color: #FFE140;
-  font-weight: 700;
-  text-shadow: 0 0 12px rgba(255, 225, 64, 0.4);
-}
-
-.marquee-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #FFE140;
-  opacity: 0.75;
-  box-shadow: 0 0 8px rgba(255, 225, 64, 0.9);
-}
-
-.marquee-emblem {
-  width: 22px;
-  height: 22px;
-  filter: drop-shadow(0 0 8px rgba(255, 225, 64, 0.45));
-  display: inline-block;
-  vertical-align: middle;
-}
-
-@keyframes landoMarquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }

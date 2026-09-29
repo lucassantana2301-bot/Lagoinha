@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>try{if(sessionStorage.getItem('lagoinha-arrived'))document.documentElement.classList.add('arrived');sessionStorage.setItem('lagoinha-arrived','1')}catch(e){}</script>
   <title>Lagoinha Alphaville • Portal & Lagoinha Parking</title>
   <meta name="description" content="Portal de acolhimento e sistema inteligente de monitoramento de estacionamento da Igreja Lagoinha Alphaville em Barueri/SP.">
   <link rel="stylesheet" href="css/style.css">
@@ -25,10 +26,6 @@
        BACKGROUND SYSTEM — camada visual fixa (decorativa, fora da leitura)
        ======================================================================== -->
   <div id="bgSystem" aria-hidden="true">
-    <div class="bg-mesh"></div>
-    <div class="bg-blob bg-blob-1"></div>
-    <div class="bg-blob bg-blob-2"></div>
-    <div class="bg-blob bg-blob-3"></div>
     <div class="bg-vignette"></div>
     <div class="bg-noise"></div>
   </div>
@@ -78,6 +75,12 @@
       <div class="hero-media">
         <img class="hero-media-img" src="assets/official/group.webp" alt="Comunidade reunida em celebração na Lagoinha Alphaville" width="1440" height="1080" fetchpriority="high" decoding="async">
         <div class="hero-media-grade" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-doors" aria-hidden="true">
+        <span class="door door-l"></span>
+        <span class="door door-r"></span>
+        <span class="door-seam"></span>
       </div>
 
       <div class="hero-stage">
@@ -145,41 +148,13 @@
       </div>
     </section>
     
-    <!-- KINETIC INFINITE MARQUEE TICKER (LANDO NORRIS STYLE) -->
-    <div class="lando-marquee-section" aria-label="Destaques Institucionais em Movimento">
-      <div class="lando-marquee-track">
-        <div class="lando-marquee-item">
-          <img src="assets/lagoinha_official_emblem.svg" alt="" class="marquee-emblem" width="24" height="24">
-          <span>Lagoinha <span class="marquee-accent">Alphaville</span></span>
-          <span class="marquee-dot"></span>
-          <span>O acolhimento começa antes de entrar</span>
-          <span class="marquee-dot"></span>
-          <span>Domingos <span class="marquee-accent">10h & 18h</span></span>
-          <span class="marquee-dot"></span>
-          <span>Av. Tamboré, 74</span>
-          <span class="marquee-dot"></span>
-          <span>Uma Igreja <span class="marquee-accent">Viva</span></span>
-          <span class="marquee-dot"></span>
-          <span>Estacionamento Inteligente</span>
-          <span class="marquee-dot"></span>
-        </div>
-        <div class="lando-marquee-item" aria-hidden="true">
-          <img src="assets/lagoinha_official_emblem.svg" alt="" class="marquee-emblem" width="24" height="24">
-          <span>Lagoinha <span class="marquee-accent">Alphaville</span></span>
-          <span class="marquee-dot"></span>
-          <span>O acolhimento começa antes de entrar</span>
-          <span class="marquee-dot"></span>
-          <span>Domingos <span class="marquee-accent">10h & 18h</span></span>
-          <span class="marquee-dot"></span>
-          <span>Av. Tamboré, 74</span>
-          <span class="marquee-dot"></span>
-          <span>Uma Igreja <span class="marquee-accent">Viva</span></span>
-          <span class="marquee-dot"></span>
-          <span>Estacionamento Inteligente</span>
-          <span class="marquee-dot"></span>
-        </div>
+    <!-- SILÊNCIO — uma frase, nada mais. As palavras acendem com o scroll (js/experience.js). -->
+    <section class="silence" aria-label="O acolhimento começa antes de entrar">
+      <div class="silence-stage">
+        <span class="silence-seam" aria-hidden="true"></span>
+        <p class="silence-line">O acolhimento começa antes de entrar<span class="dot">.</span></p>
       </div>
-    </div>
+    </section>
 
 
     <!-- B. SUA PRIMEIRA VISITA, COM TRANQUILIDADE -->
@@ -452,8 +427,8 @@
               <figcaption>Um novo começo. <a href="https://www.lagoinhaalphaville.com.br/" target="_blank" rel="noopener noreferrer">Foto oficial ↗</a></figcaption>
             </figure>
             <div style="display:flex; flex-direction:column; justify-content:center;">
-              <span class="bento-tag-pill" style="color:var(--accent-blue); background:rgba(255,225,64,0.10); border-color:rgba(255,225,64,0.20);">
-                <span class="pill-dot" style="background:var(--accent-blue); box-shadow:0 0 8px var(--accent-blue);"></span>
+              <span class="bento-tag-pill">
+                <span class="pill-dot"></span>
                 Passo de Fé
               </span>
               <h3 class="bento-title" style="font-size:1.5rem;">Batismo nas Águas</h3>
@@ -473,8 +448,8 @@
               <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
             </div>
             <div>
-              <span class="bento-tag-pill" style="color:#AF52DE; background:rgba(175,82,222,0.12); border-color:rgba(175,82,222,0.25);">
-                <span class="pill-dot" style="background:#AF52DE; box-shadow:0 0 8px #AF52DE;"></span>
+              <span class="bento-tag-pill">
+                <span class="pill-dot"></span>
                 Pertença & Integração
               </span>
               <h3 class="bento-title" style="font-size:1.5rem;">Seja Membro</h3>
@@ -493,8 +468,8 @@
               <img src="assets/lagoinha_official_emblem.svg" alt="" width="160" height="160">
             </div>
             <div>
-              <span class="bento-tag-pill" style="color:#00C7BE; background:rgba(0,199,190,0.12); border-color:rgba(0,199,190,0.25);">
-                <span class="pill-dot" style="background:#00C7BE; box-shadow:0 0 8px #00C7BE;"></span>
+              <span class="bento-tag-pill">
+                <span class="pill-dot"></span>
                 Maturidade & Discipulado
               </span>
               <h3 class="bento-title" style="font-size:1.5rem;">Cursos & Escola Bíblica</h3>
@@ -1125,5 +1100,6 @@
 <script src="js/motion-system.js"></script>
 <script src="js/next-service.js"></script>
 <script src="js/church-depth.js"></script>
+<script src="js/experience.js"></script>
 </body>
 </html>

@@ -91,6 +91,7 @@
       s.card.classList.toggle('is-live', !!state.live && s.card === state.live.card);
       s.card.classList.toggle('is-next', !state.live && s.card === state.next.card);
     });
+    if (ruler) ruler.update(now, state);
   }
 
   function strong(value) {
@@ -99,12 +100,101 @@
     return el;
   }
 
+  function node(tag, className) {
+    var el = document.createElement(tag);
+    if (className) el.className = className;
+    return el;
+  }
+
+  /* A SEMANA EM LUZ — régua da semana acima da grade de cultos: uma marca por
+     culto, uma agulha no "agora" real de São Paulo e um feixe preenchendo o
+     tempo até o próximo culto. Decorativa (aria-hidden): as linhas da grade já
+     trazem a mesma informação em texto. A agulha acelera do domingo até o agora
+     quando a régua entra na tela. */
+  var SHORT_DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  var ruler = null;
+
+  function buildRuler(services) {
+    var grid = document.querySelector('.schedule-grid');
+    if (!grid || !grid.parentNode || !('IntersectionObserver' in window)) return null;
+
+    var root = node('div', 'week');
+    root.setAttribute('aria-hidden', 'true');
+    var days = node('div', 'week-days');
+    SHORT_DAYS.forEach(function (d) {
+      var label = node('span');
+      label.textContent = d;
+      days.appendChild(label);
+    });
+    var track = node('div', 'week-track');
+    var fills = [node('i', 'week-fill'), node('i', 'week-fill')];
+    fills.forEach(function (f) { track.appendChild(f); });
+    var marks = services.map(function (s, i) {
+      var mark = node('span', 'week-mark');
+      mark.style.setProperty('--x', (s.start / WEEK).toFixed(5));
+      mark.style.setProperty('--i', i);
+      track.appendChild(mark);
+      return mark;
+    });
+    var needle = node('span', 'week-now');
+    var needleLabel = node('em');
+    needle.appendChild(needleLabel);
+    var nextLabel = node('span', 'week-next-label');
+    track.appendChild(needle);
+    track.appendChild(nextLabel);
+    root.appendChild(track);
+    root.appendChild(days);
+    grid.parentNode.insertBefore(root, grid);
+
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        root.classList.add('is-on');
+        observer.disconnect();
+      }
+    }, { threshold: 0.6 });
+    observer.observe(root);
+
+    function setFill(fill, a, b) {
+      fill.style.setProperty('--a', a.toFixed(5));
+      fill.style.setProperty('--b', b.toFixed(5));
+    }
+
+    return {
+      update: function (now, state) {
+        var x = now / WEEK;
+        var minutes = now % 1440;
+        needle.style.setProperty('--x', x.toFixed(5));
+        needleLabel.textContent = 'Agora · ' + Math.floor(minutes / 60) + 'h' + String(minutes % 60).padStart(2, '0');
+        var focus = state.live || state.next;
+        marks.forEach(function (mark, i) {
+          mark.classList.toggle('is-focus', services[i] === focus);
+          mark.classList.toggle('is-live', services[i] === state.live);
+        });
+        nextLabel.style.setProperty('--x', (focus.start / WEEK).toFixed(5));
+        nextLabel.textContent = focus.name + ' · ' + (state.live ? 'agora' : hourLabel(focus.time) + ' · em ' + durationLabel(state.until));
+        var nx = focus.start / WEEK;
+        if (state.live) {
+          setFill(fills[0], nx, x);
+          setFill(fills[1], 0, 0);
+        } else if (nx > x) {
+          setFill(fills[0], x, nx);
+          setFill(fills[1], 0, 0);
+        } else {
+          // Próximo culto já é na semana seguinte: o feixe atravessa o fim da régua.
+          setFill(fills[0], x, 1);
+          setFill(fills[1], 0, nx);
+        }
+      }
+    };
+  }
+
   function init() {
     var pill = document.querySelector('.hero-live-radar');
     var services = readSchedule();
     if (!pill || !services.length || !window.Intl) return;
+    ruler = buildRuler(services);
     render(pill, services);
-    // Atualiza no virar de cada minuto; não é animação, só o texto do selo.
+    // Atualiza no virar de cada minuto; não é animação, só texto e posição.
     window.setTimeout(function tick() {
       render(pill, services);
       window.setTimeout(tick, 60000 - (Date.now() % 60000));

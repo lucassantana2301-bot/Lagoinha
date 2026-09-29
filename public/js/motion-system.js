@@ -150,25 +150,6 @@
   }
 
   /* ------------------------------------------------------------------------
-     2. ATMOSFERA POR CAPÍTULO (scroll como timeline — seção 04)
-     ------------------------------------------------------------------------ */
-  function initChapters() {
-    var root = document.getElementById('bgSystem');
-    var sections = Array.prototype.slice.call(document.querySelectorAll('#viewPortal section[id]'));
-    if (!root || !sections.length || !('IntersectionObserver' in window)) return;
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          root.setAttribute('data-atmosphere', entry.target.id);
-        }
-      });
-    }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
-
-    sections.forEach(function (section) { observer.observe(section); });
-  }
-
-  /* ------------------------------------------------------------------------
      3. SCROLL — um único listener/rAF para progress bar, header, scroll-spy
         e paralaxe multicamadas (seções 08/09/10/19)
      ------------------------------------------------------------------------ */
@@ -203,7 +184,6 @@
     var hero = document.querySelector('.hero-cinematic');
     var lastY = window.scrollY || 0;
     if (header) header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
-    var bgRoot = document.getElementById('bgSystem');
     var navLinks = Array.prototype.slice.call(document.querySelectorAll('.quick-link[href^="#"]'));
     var navTargets = navLinks
       .map(function (link) {
@@ -258,9 +238,6 @@
         });
       }
 
-      if (!reduceMotion && bgRoot) {
-        bgRoot.style.setProperty('--bgsys-scroll-slow', (scrollY * 0.04).toFixed(1) + 'px');
-      }
 
       if (navTargets.length) {
         var mid = scrollY + window.innerHeight * 0.45;
@@ -286,35 +263,6 @@
     }
 
     update();
-  }
-
-  /* ------------------------------------------------------------------------
-     4. PARALAXE DE MOUSE NO MESH (throttle por rAF, 1 listener)
-     ------------------------------------------------------------------------ */
-  function initMouseParallax() {
-    var root = document.getElementById('bgSystem');
-    if (!root || reduceMotion || !canHover) return;
-
-    var pending = false;
-    var lastX = 0;
-    var lastY = 0;
-
-    function apply() {
-      pending = false;
-      root.style.setProperty('--bgsys-mx', lastX.toFixed(1) + 'px');
-      root.style.setProperty('--bgsys-my', lastY.toFixed(1) + 'px');
-    }
-
-    window.addEventListener('mousemove', function (e) {
-      var cx = window.innerWidth / 2;
-      var cy = window.innerHeight / 2;
-      lastX = ((e.clientX - cx) / cx) * 18;
-      lastY = ((e.clientY - cy) / cy) * 18;
-      if (!pending) {
-        pending = true;
-        window.requestAnimationFrame(apply);
-      }
-    }, { passive: true });
   }
 
   /* ------------------------------------------------------------------------
@@ -513,9 +461,7 @@
     safe('tipografia cinética', initKineticTypography);
     safe('divisores de seção', initSectionDividers);
     safe('reveal', initReveal);
-    safe('capítulos/atmosfera', initChapters);
     safe('scroll timeline', initScrollTimeline);
-    safe('paralaxe de mouse', initMouseParallax);
     safe('presença física dos cards', initCardPresence);
     safe('botões magnéticos', initMagneticButtons);
     safe('ripple', initRipple);

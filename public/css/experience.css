@@ -21,6 +21,13 @@
   --header-h: 68px;
   --stage-pad: clamp(1.25rem, 4vw, 3.5rem);
   --ink: #06060a;
+  /* Chegada: portas abrem em --doors-at; o conteúdo do hero entra a partir de --hero-delay. */
+  --doors-at: 1000ms;
+  --hero-delay: 1350ms;
+}
+.arrived {
+  --doors-at: 0ms;
+  --hero-delay: 200ms;
 }
 
 /* --------------------------------------------------------------------------
@@ -75,7 +82,7 @@
   object-fit: cover;
   object-position: 50% 38%;
   transform: translate3d(0, calc(var(--hero-exit) * 12%), 0) scale(calc(1.04 + var(--hero-exit) * 0.1));
-  animation: hero-lens 2400ms var(--ease-launch) both;
+  animation: hero-lens 2600ms var(--doors-at) var(--ease-launch) both;
 }
 @keyframes hero-lens {
   from { opacity: 0; scale: 1.16; }
@@ -152,7 +159,7 @@
   height: 1px;
   background: linear-gradient(90deg, rgba(255, 225, 64, 0.8), rgba(255, 255, 255, 0.14) 40%, rgba(255, 255, 255, 0.06));
   transform-origin: left;
-  animation: rule-draw 1600ms 900ms var(--ease-launch) both;
+  animation: rule-draw 1600ms calc(var(--hero-delay) + 650ms) var(--ease-launch) both;
 }
 @keyframes rule-draw {
   from { transform: scaleX(0); }
@@ -169,13 +176,13 @@
 /* Coreografia de entrada: mais lenta e espaçada que o resto da página. */
 .js-reveal .hero-cinematic .reveal {
   transition-duration: 1200ms;
-  transition-delay: calc(350ms + var(--stagger-index, 0) * 130ms);
+  transition-delay: calc(var(--hero-delay) + var(--stagger-index, 0) * 130ms);
 }
 .js-reveal .hero-cinematic .reveal:not(.is-visible) { transform: translate3d(0, 28px, 0); }
 .js-reveal .hero-cinematic .kinetic-line:not(.is-visible) .kw-i { transform: translate3d(0, 110%, 0) rotate(5deg); }
 .js-reveal .hero-cinematic .kinetic-line .kw-i {
   transition-duration: 1400ms;
-  transition-delay: calc(560ms + var(--w, 0) * 140ms);
+  transition-delay: calc(var(--hero-delay) + 150ms + var(--w, 0) * 140ms);
 }
 
 .hero-scroll-cue {
@@ -207,7 +214,7 @@
   inset: 0;
   background: var(--accent-blue, #FFE140);
   transform: translateY(-100%);
-  animation: cue-run 2200ms var(--ease-precise) 2200ms infinite;
+  animation: cue-run 2200ms var(--ease-precise) calc(var(--hero-delay) + 1600ms) infinite;
 }
 @keyframes cue-run {
   0% { transform: translateY(-100%); }
@@ -618,7 +625,9 @@ html:not(.js-reveal) #viewPortal .section-tag::after { transform: scaleX(1); }
 /* --------------------------------------------------------------------------
    7. MICROINTERAÇÕES
    -------------------------------------------------------------------------- */
-.btn { transition: background-color 400ms var(--ease-launch), border-color 400ms var(--ease-launch), color 300ms ease, box-shadow 500ms var(--ease-launch); }
+.btn { transition: background-color 400ms var(--ease-launch), border-color 400ms var(--ease-launch), color 300ms ease, box-shadow 500ms var(--ease-launch), scale 180ms var(--ease-launch); }
+/* Pressionar: o botão cede um pouco, como algo físico. */
+.btn:active { scale: 0.97; }
 .btn-primary { position: relative; overflow: hidden; }
 /* Brilho que atravessa o botão principal no hover. */
 .btn-primary::after {
@@ -685,3 +694,350 @@ html:not(.js-reveal) #viewPortal .section-tag::after { transform: scaleX(1); }
 
 /* Ponto final na cor da marca: assinatura tipográfica das frases-chave. */
 #viewPortal .dot { color: var(--accent-blue, #FFE140); -webkit-text-fill-color: var(--accent-blue, #FFE140); }
+
+/* ==========================================================================
+   MOMENTOS-ASSINATURA — o fio de luz
+   Um mesmo motivo atravessa a página: um fio de luz quente (presença, quem
+   recebe você). Ele abre as portas no hero, vira o indicador de scroll,
+   aparece no silêncio e marca o "agora" na semana de cultos.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   A. CHEGADA — as portas se abrem (só na primeira visita da sessão)
+   -------------------------------------------------------------------------- */
+.hero-doors {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.arrived .hero-doors { display: none; }
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.2%;
+  background: var(--ink);
+}
+.door-l { left: 0; animation: door-l 1800ms var(--doors-at) var(--ease-launch) forwards; }
+.door-r { right: 0; animation: door-r 1800ms var(--doors-at) var(--ease-launch) forwards; }
+@keyframes door-l { to { transform: translate3d(-101%, 0, 0); } }
+@keyframes door-r { to { transform: translate3d(101%, 0, 0); } }
+
+/* A luz nas bordas internas das portas, que se apaga enquanto elas abrem. */
+.door::after,
+.door-seam {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent 4%, rgba(255, 214, 120, 0.9) 30%, #fff3d6 50%, rgba(255, 214, 120, 0.9) 70%, transparent 96%);
+  box-shadow: 0 0 22px 3px rgba(255, 200, 90, 0.5), 0 0 90px 14px rgba(255, 190, 80, 0.18);
+}
+.door-l::after { right: -1px; }
+.door-r::after { left: -1px; }
+.door::after { opacity: 0; animation: door-edge 1800ms var(--doors-at) linear forwards; }
+@keyframes door-edge {
+  0% { opacity: 1; }
+  45% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+/* Antes de abrir: uma fresta de luz nasce no centro. */
+.door-seam {
+  left: 50%;
+  margin-left: -1px;
+  transform: scaleY(0);
+  animation: seam-in 750ms 250ms var(--ease-precise) forwards, seam-out 1ms var(--doors-at) forwards;
+}
+@keyframes seam-in { to { transform: scaleY(1); } }
+@keyframes seam-out { to { opacity: 0; } }
+
+/* A luz que entra pela porta: um clarão quente que se espalha e assenta. */
+.hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(38% 80% at 50% 50%, rgba(255, 214, 140, 0.55), transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  animation: light-spill 2000ms var(--doors-at) var(--ease-launch) both;
+}
+@keyframes light-spill {
+  0% { opacity: 1; transform: scaleX(0.15); }
+  100% { opacity: 0; transform: scaleX(1.8); }
+}
+.arrived .hero-media::before { display: none; }
+
+/* O header chega depois da cena (só no portal, só na primeira chegada). */
+html:not(.arrived) body:has(#viewPortal.active) .app-header,
+html:not(.arrived) .chapter-rail {
+  animation: header-arrive 900ms calc(var(--hero-delay) + 600ms) var(--ease-launch) both;
+}
+@keyframes header-arrive { from { opacity: 0; } }
+
+/* --------------------------------------------------------------------------
+   B. SILÊNCIO — uma frase; as palavras acendem com o scroll. Nada se move.
+   -------------------------------------------------------------------------- */
+.silence {
+  position: relative;
+  background: var(--ink);
+  color: #fff;
+}
+.silence-stage {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 80svh;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: clamp(6rem, 14vh, 10rem) var(--stage-pad);
+}
+.silence-line {
+  margin: 0;
+  max-width: 13ch;
+  font-size: clamp(2.8rem, 8.6vw, 10rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.silence-seam {
+  position: absolute;
+  left: calc(var(--stage-pad) * 0.45);
+  top: 12%;
+  bottom: 12%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 214, 120, 0.7), transparent);
+  opacity: 0.4;
+  transform-origin: top;
+}
+.silence.is-scrubbed { height: 230vh; }
+.is-scrubbed .silence-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 0;
+  padding-block: 0;
+}
+.is-scrubbed .sw { color: rgba(255, 255, 255, calc(0.12 + var(--lit, 0) * 0.88)); }
+.is-scrubbed .sw .dot { opacity: var(--lit, 0); }
+.is-scrubbed .silence-seam {
+  opacity: 1;
+  transform: scaleY(var(--silence-p, 0));
+}
+
+/* --------------------------------------------------------------------------
+   C. A SEMANA EM LUZ — régua acima da grade de cultos (js/next-service.js)
+   -------------------------------------------------------------------------- */
+.week {
+  position: relative;
+  margin: 0 0 clamp(3rem, 6vw, 5rem);
+  padding-top: 3rem;
+}
+.week-track {
+  position: relative;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 2.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+.week-days span {
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+.week-fill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  left: calc(var(--a, 0) * 100%);
+  width: calc((var(--b, 0) - var(--a, 0)) * 100%);
+  background: linear-gradient(90deg, rgba(255, 225, 64, 0.2), #FFE140);
+  box-shadow: 0 0 12px rgba(255, 225, 64, 0.45);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1200ms 1700ms var(--ease-launch);
+}
+.week.is-on .week-fill { transform: scaleX(1); }
+.week-mark {
+  position: absolute;
+  left: calc(var(--x) * 100%);
+  top: -7px;
+  width: 2px;
+  height: 16px;
+  margin-left: -1px;
+  background: rgba(255, 225, 64, 0.5);
+  opacity: 0;
+  transform: scaleY(0);
+  transition: opacity 400ms linear, transform 700ms var(--ease-launch);
+  transition-delay: calc(150ms + var(--i, 0) * 60ms);
+}
+.week.is-on .week-mark { opacity: 1; transform: none; }
+.week-mark.is-focus {
+  top: -10px;
+  height: 22px;
+  background: #FFE140;
+  box-shadow: 0 0 14px rgba(255, 225, 64, 0.8);
+}
+.week-mark.is-live { background: #30D158; box-shadow: 0 0 14px rgba(48, 209, 88, 0.8); }
+/* A agulha do "agora": acelera do domingo e freia com precisão no minuto atual. */
+.week-now {
+  position: absolute;
+  left: 0;
+  top: -19px;
+  width: 1px;
+  height: 40px;
+  background: #fff;
+  transition: left 1900ms 350ms var(--ease-launch);
+}
+.week.is-on .week-now { left: calc(var(--x, 0) * 100%); }
+.week-now::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+}
+/* Rótulos se ancoram proporcionalmente: à esquerda no domingo, à direita no sábado. */
+.week-now em,
+.week-next-label {
+  position: absolute;
+  white-space: nowrap;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.week-now em {
+  top: calc(100% + 0.35rem);
+  left: 0;
+  transform: translateX(calc(var(--x, 0) * -100%));
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+.week-next-label {
+  left: calc(var(--x, 0) * 100%);
+  bottom: calc(100% + 1.1rem);
+  transform: translateX(calc(var(--x, 0) * -100%));
+  font-size: 0.82rem;
+  color: #FFE140;
+  opacity: 0;
+  transition: opacity 600ms 2300ms linear;
+}
+.week.is-on .week-next-label { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   D. MICRODETALHES
+   -------------------------------------------------------------------------- */
+::selection { background: #FFE140; color: #0a0a0a; }
+html { scrollbar-color: rgba(255, 255, 255, 0.2) var(--ink); scrollbar-width: thin; }
+
+/* Links no meio do texto ganham um sublinhado que se desenha no hover. */
+#viewPortal p a:not(.btn),
+.church-meta a,
+.hero-credit a {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 500ms var(--ease-launch);
+}
+#viewPortal p a:not(.btn):hover,
+.church-meta a:hover,
+.hero-credit a:hover { background-size: 100% 1px; }
+
+/* A citação institucional como tipografia, não como card. */
+[data-theme] #viewPortal .editorial-quote-card {
+  position: relative;
+  padding: 0 0 0 clamp(1.25rem, 3vw, 2.5rem) !important;
+  background: none !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(255, 225, 64, 0.45) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+#viewPortal .editorial-quote-card .bento-card-watermark { display: none; }
+[data-theme] #viewPortal .editorial-quote-card .quote-mark {
+  font-size: clamp(4rem, 7vw, 6.5rem);
+  line-height: 0.6;
+  font-weight: 900;
+  font-style: normal;
+  color: #FFE140;
+  margin-bottom: 0.5rem;
+}
+[data-theme] #viewPortal .editorial-quote-card .quote-text {
+  font-size: clamp(1.45rem, 2.4vw, 2.2rem);
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-wrap: pretty;
+}
+
+/* Uma só voz para os sobretítulos: sem pílulas brilhantes nem cores fora da marca. */
+[data-theme] #viewPortal .bento-tag-pill,
+[data-theme] #viewPortal .dark-showcase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: #FFE140 !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase;
+}
+[data-theme] #viewPortal .bento-tag-pill .pill-dot { display: none; }
+[data-theme] #viewPortal .bento-tag-pill::before,
+[data-theme] #viewPortal .dark-showcase-tag::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Imagens tardias entram inteiras, não pela metade. */
+.img-pending { opacity: 0; transition: opacity 900ms var(--ease-launch); }
+.img-pending.img-loaded { opacity: 1; }
+
+@media (max-width: 760px) {
+  .silence.is-scrubbed { height: 200vh; }
+  .silence-line { font-size: clamp(2.3rem, 11vw, 3.6rem); }
+  .week-days { font-size: 0.58rem; letter-spacing: 0.08em; }
+  .week-days span { padding-left: 0.3rem; }
+  .week-next-label { font-size: 0.62rem; letter-spacing: 0.08em; }
+  .week-now em { font-size: 0.6rem; letter-spacing: 0.08em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-doors, .hero-media::before { display: none; }
+  html:not(.arrived) body:has(#viewPortal.active) .app-header,
+  html:not(.arrived) .chapter-rail { animation: none; }
+  :root { --hero-delay: 0ms; --doors-at: 0ms; }
+  .week-fill, .week-mark, .week-now, .week-next-label { transition: none; }
+  .img-pending { opacity: 1; transition: none; }
+}
