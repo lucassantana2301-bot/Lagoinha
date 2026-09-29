@@ -116,6 +116,91 @@
 }
 .skip-link:focus-visible { transform: none; outline: 2px solid #fff; outline-offset: 2px; }
 
+/* Selo do próximo culto (js/next-service.js). Sem JS mantém o texto estático. */
+.hero-live-radar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  width: fit-content;
+  padding: 0.4rem 0.9rem 0.4rem 0.7rem;
+  border: 1px solid rgba(255, 225, 64, 0.35);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: border-color 250ms ease, background-color 250ms ease;
+}
+.hero-live-radar:hover { border-color: rgba(255, 225, 64, 0.7); }
+.hero-live-radar .radar-beacon {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent-blue, #FFE140);
+}
+.hero-live-radar .radar-badge {
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 225, 64, 0.14);
+  color: var(--accent-blue, #FFE140);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hero-live-radar .radar-text strong { color: var(--accent-blue, #FFE140); }
+
+[data-theme] .hero-live-radar.is-live {
+  border-color: rgba(48, 209, 88, 0.55) !important;
+  box-shadow: 0 0 20px rgba(48, 209, 88, 0.15) !important;
+}
+.hero-live-radar.is-live .radar-beacon { background: #30D158; }
+.hero-live-radar.is-live .radar-badge { background: rgba(48, 209, 88, 0.16); color: #30D158; }
+.hero-live-radar.is-live .radar-beacon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #30D158;
+  animation: radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes radar-ping {
+  to { transform: scale(3.2); opacity: 0; }
+}
+
+/* Grade de cultos: o dia de hoje e o próximo culto ganham marcação. */
+.schedule-card.is-today .schedule-day-badge::after,
+.schedule-card.is-next .schedule-day-badge::after,
+.schedule-card.is-live .schedule-day-badge::after {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 225, 64, 0.16);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  vertical-align: 1px;
+}
+.schedule-card.is-today .schedule-day-badge::after { content: "Hoje"; }
+.schedule-card.is-next:not(.is-today) .schedule-day-badge::after { content: "Próximo"; }
+.schedule-card.is-live .schedule-day-badge::after {
+  content: "Agora";
+  background: rgba(48, 209, 88, 0.16);
+  color: #30D158;
+}
+.schedule-card.is-next,
+.schedule-card.is-live {
+  border-color: rgba(255, 225, 64, 0.55) !important;
+  box-shadow: 0 0 0 1px rgba(255, 225, 64, 0.25), 0 18px 40px -18px rgba(255, 225, 64, 0.35);
+}
+.schedule-card.is-live { border-color: rgba(48, 209, 88, 0.6) !important; box-shadow: 0 0 0 1px rgba(48, 209, 88, 0.3), 0 18px 40px -18px rgba(48, 209, 88, 0.4); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-live-radar.is-live .radar-beacon::after { animation: none; }
+}
+
 /* Links de contato ficam em linhas próprias: área de toque mínima de 24px (WCAG 2.5.8). */
 .channel-row a {
   display: inline-block;
