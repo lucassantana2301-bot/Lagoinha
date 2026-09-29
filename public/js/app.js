@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const safeStorage = typeof localStorage !== 'undefined' ? localStorage : { getItem: () => null, setItem: () => {} };
   const Icons = (typeof AppleIcons !== 'undefined' ? AppleIcons : (typeof window !== 'undefined' && window.AppleIcons ? window.AppleIcons : {})) || {};
 
+  // Todo texto vindo da API ou do voluntário passa por aqui antes de entrar em innerHTML.
+  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
+  ));
+
   // Theme Management — Dark Mode Only (permanent)
   const btnToggleTheme = document.getElementById('btnToggleTheme');
   const themeIconWrapper = document.getElementById('themeIconWrapper');
@@ -469,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let sourceIcon = Icons.cpu || '';
 
       if (override) {
-        sourceLabel = `Confirmado por ${override.volunteerName}`;
+        sourceLabel = `Confirmado por ${esc(override.volunteerName)}`;
         sourceIcon = Icons.user || '';
         if (override.status === 'available') {
           statusLabel = 'Confirmado Vazio';
@@ -493,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="sector-card">
           <div class="sector-top">
             <div class="sector-name-group">
-              <span class="sector-name">${zone.name}</span>
+              <span class="sector-name">${esc(zone.name)}</span>
               <span class="sector-type-tag">${typeLabel}</span>
             </div>
             <span class="sector-state-badge ${badgeClass}">
@@ -509,13 +514,13 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
-            ${state.notes || 'Monitoramento ativo.'}
+            ${esc(state.notes || 'Monitoramento ativo.')}
           </div>
 
           ${state.uncertaintyReason ? `
             <div style="background:var(--status-purple-bg); border:1px solid rgba(175,82,222,0.25); border-radius:var(--radius-sm); padding:0.4rem 0.65rem; font-size:0.75rem; color:var(--status-purple-text); display:flex; align-items:center; gap:0.4rem;">
               <span>${Icons.alertTriangle || ''}</span>
-              <div>${state.uncertaintyReason}</div>
+              <div>${esc(state.uncertaintyReason)}</div>
             </div>
           ` : ''}
 
@@ -530,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           ${override ? `
             <div style="display:flex; justify-content:flex-end; margin-top:0.25rem;">
-              <button class="btn btn-sm btn-danger" onclick="window.clearOverride('${zone.id}')">Restaurar Análise Automática</button>
+              <button class="btn btn-sm btn-danger" onclick="window.clearOverride('${esc(zone.id)}')">Restaurar Análise Automática</button>
             </div>
           ` : ''}
         </div>
@@ -570,19 +575,19 @@ document.addEventListener('DOMContentLoaded', () => {
           pillClass = 'pill-green';
           actionText = 'CONFIRMADO PELO VOLUNTÁRIO';
           cardBorder = 'direct';
-          explanation = `Validação presencial por ${override.volunteerName}.`;
+          explanation = `Validação presencial por ${esc(override.volunteerName)}.`;
         } else if (override.status === 'full') {
           pillClass = 'pill-red';
           actionText = 'SETOR LOTADO (NÃO ENVIAR)';
           cardBorder = 'blocked';
           actionIcon = Icons.slashCircle || '';
-          explanation = `Voluntário ${override.volunteerName} confirmou lotação no local.`;
+          explanation = `Voluntário ${esc(override.volunteerName)} confirmou lotação no local.`;
         } else if (override.status === 'blocked') {
           pillClass = 'pill-red';
           actionText = 'SETOR INTERDITADO';
           cardBorder = 'blocked';
           actionIcon = Icons.slashCircle || '';
-          explanation = `Bloqueado temporariamente por ${override.volunteerName}.`;
+          explanation = `Bloqueado temporariamente por ${esc(override.volunteerName)}.`;
         }
       } else if (state.aiStatus === 'full') {
         pillClass = 'pill-red';
@@ -601,13 +606,13 @@ document.addEventListener('DOMContentLoaded', () => {
         actionText = 'VERIFICAR ESPAÇO NO LOCAL';
         cardBorder = 'uncertain';
         actionIcon = Icons.alertTriangle || '';
-        explanation = (state.uncertaintyReason || 'Visibilidade reduzida') + ' — VERIFICAR ANTES de direcionar.';
+        explanation = esc(state.uncertaintyReason || 'Visibilidade reduzida') + ' — VERIFICAR ANTES de direcionar.';
       }
 
       return `
         <div class="entrance-decision-card ${cardBorder}">
           <div>
-            <div style="font-size:1.25rem; font-weight:700; letter-spacing:-0.02em;">${zone.name}</div>
+            <div style="font-size:1.25rem; font-weight:700; letter-spacing:-0.02em;">${esc(zone.name)}</div>
             <div class="entrance-action-pill ${pillClass}">
               <span>${actionIcon}</span>
               <span>${actionText}</span>
@@ -617,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div style="display:flex; justify-content:space-between; background:var(--bg-surface-secondary); border:1px solid var(--border-subtle); padding:0.5rem 0.75rem; border-radius:var(--radius-sm); font-size:0.75rem; color:var(--text-secondary);">
-            <span>Veículos na cena: <strong>${state.detectedCarsCount ?? '—'}</strong></span>
+            <span>Veículos na cena: <strong>${esc(state.detectedCarsCount ?? '—')}</strong></span>
             <span>Atualizado: <strong>${formatTimeAgo(state.lastUpdate || Date.now())}</strong></span>
           </div>
         </div>
@@ -638,18 +643,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return `
         <div class="volunteer-action-card">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size:1.05rem; font-weight:700;">${zone.name}</div>
+            <div style="font-size:1.05rem; font-weight:700;">${esc(zone.name)}</div>
             <span class="sector-type-tag">${zone.type === 'parking' ? 'Vagas' : (zone.type === 'corridor' ? 'Corredor' : 'Área Restrita')}</span>
           </div>
 
           <div style="margin:0.5rem 0; font-size:0.82rem; color:var(--text-secondary);">
-            Estado Automático: <strong style="color:var(--text-primary);">${state.aiStatus || 'Normal'}</strong>
+            Estado Automático: <strong style="color:var(--text-primary);">${esc(state.aiStatus || 'Normal')}</strong>
           </div>
 
           ${override ? `
             <div style="background:var(--accent-blue-subtle); border:1px solid rgba(0,122,255,0.25); padding:0.5rem 0.75rem; border-radius:var(--radius-sm); font-size:0.78rem; color:var(--accent-blue); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem;">
               <span>${Icons.user || ''}</span>
-              <div>Seu registro: <strong>${override.status.toUpperCase()}</strong> (${formatTimeAgo(override.timestamp)})</div>
+              <div>Seu registro: <strong>${esc(String(override.status).toUpperCase())}</strong> (${formatTimeAgo(override.timestamp)})</div>
             </div>
           ` : ''}
 
@@ -658,19 +663,19 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div class="volunteer-buttons-matrix">
-            <button class="vol-btn vol-btn-green" onclick="window.sendHumanOverride('${zone.id}', 'available')">
+            <button class="vol-btn vol-btn-green" onclick="window.sendHumanOverride('${esc(zone.id)}', 'available')">
               <span>${Icons.checkCircle || ''}</span>
               <span>Tem Espaço</span>
             </button>
-            <button class="vol-btn vol-btn-red" onclick="window.sendHumanOverride('${zone.id}', 'full')">
+            <button class="vol-btn vol-btn-red" onclick="window.sendHumanOverride('${esc(zone.id)}', 'full')">
               <span>${Icons.slashCircle || ''}</span>
               <span>Está Lotado</span>
             </button>
-            <button class="vol-btn vol-btn-orange" onclick="window.sendHumanOverride('${zone.id}', 'blocked')">
+            <button class="vol-btn vol-btn-orange" onclick="window.sendHumanOverride('${esc(zone.id)}', 'blocked')">
               <span>${Icons.alertTriangle || ''}</span>
               <span>Interditar / Manobra</span>
             </button>
-            <button class="vol-btn vol-btn-clear" onclick="window.clearOverride('${zone.id}')">
+            <button class="vol-btn vol-btn-clear" onclick="window.clearOverride('${esc(zone.id)}')">
               <span>${Icons.cpu || ''}</span>
               <span>Restaurar IA</span>
             </button>
@@ -686,8 +691,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!listContainer) return;
 
     listContainer.innerHTML = zones.map(z => `
-      <button class="btn btn-sm ${z.id === activeId ? 'btn-primary' : ''}" onclick="window.selectEditorZone('${z.id}')">
-        ${z.name}
+      <button class="btn btn-sm ${z.id === activeId ? 'btn-primary' : ''}" onclick="window.selectEditorZone('${esc(z.id)}')">
+        ${esc(z.name)}
       </button>
     `).join('');
 
@@ -704,7 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem;">
         <div>
           <label style="font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Nome do Setor:</label>
-          <input type="text" id="editZoneName" value="${activeZone.name}" style="width:100%; padding:0.45rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); font-size:0.82rem;">
+          <input type="text" id="editZoneName" value="${esc(activeZone.name)}" style="width:100%; padding:0.45rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); font-size:0.82rem;">
         </div>
         <div>
           <label style="font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Tipo de Zona:</label>
@@ -719,11 +724,11 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
         <div>
           <label style="font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Capacidade Estimada (Referência):</label>
-          <input type="number" id="editZoneCapacity" value="${activeZone.maxEstimatedCapacity || 15}" style="width:100%; padding:0.45rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); font-size:0.82rem;">
+          <input type="number" id="editZoneCapacity" value="${esc(activeZone.maxEstimatedCapacity || 15)}" style="width:100%; padding:0.45rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); font-size:0.82rem;">
         </div>
         <div>
           <label style="font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Cor do Polígono:</label>
-          <input type="color" id="editZoneColor" value="${activeZone.color || '#007AFF'}" style="width:100%; height:34px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:transparent; cursor:pointer;">
+          <input type="color" id="editZoneColor" value="${esc(activeZone.color || '#007AFF')}" style="width:100%; height:34px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:transparent; cursor:pointer;">
         </div>
       </div>
 
@@ -768,17 +773,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Código de acesso da equipe (VOLUNTEER_TOKEN no servidor), pedido uma vez por aparelho.
+  function teamHeaders() {
+    let token = safeStorage.getItem('volunteer_token');
+    if (!token && typeof prompt !== 'undefined') {
+      token = (prompt('Código de acesso da equipe de voluntários:') || '').trim();
+      if (token) safeStorage.setItem('volunteer_token', token);
+    }
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    return headers;
+  }
+
+  function forgetTeamTokenIfRejected(response) {
+    if (response.status === 401) safeStorage.removeItem?.('volunteer_token');
+  }
+
   window.applyZoneChanges = async () => {
     const zones = polygonEditor.getZones();
     try {
       const res = await fetch('/api/zones', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: teamHeaders(),
         body: JSON.stringify(zones)
       });
+      forgetTeamTokenIfRejected(res);
       if (res.ok) {
         window.appleAudio?.playSuccess();
         alert('Configuração de polígonos salva no servidor com sucesso.');
+      } else {
+        const result = await res.json().catch(() => ({}));
+        alert(res.status === 401 ? 'Código de acesso inválido. Tente salvar novamente.' : `Não foi possível salvar: ${result.error || 'erro desconhecido'}.`);
       }
     } catch (e) {
       alert('Erro ao salvar polígonos.');
@@ -793,10 +818,15 @@ document.addEventListener('DOMContentLoaded', () => {
     notify('Enviando atualização…', 'sync');
     try {
       const response = await fetch('/api/override', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: teamHeaders(),
         signal: AbortSignal.timeout(8000),
         body: JSON.stringify({ sectorId, status, volunteerName })
       });
+      forgetTeamTokenIfRejected(response);
+      if (response.status === 401) {
+        notify('Código de acesso da equipe inválido. Toque novamente para informar o código correto.', 'error');
+        return;
+      }
       if (!response.ok) throw new Error('Resposta inválida do servidor');
       const result = await response.json();
       if (result.success !== true) throw new Error('Atualização não confirmada');

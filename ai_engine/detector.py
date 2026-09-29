@@ -16,6 +16,8 @@ import numpy as np
 SERVER_URL = os.environ.get("PARKING_SERVER_URL", "http://localhost:3000").rstrip("/")
 API_URL = SERVER_URL + "/api/telemetry"
 ZONES_URL = SERVER_URL + "/api/zones"
+VOLUNTEER_TOKEN = os.environ.get("VOLUNTEER_TOKEN", "")
+AUTH_HEADERS = {"Authorization": f"Bearer {VOLUNTEER_TOKEN}"} if VOLUNTEER_TOKEN else {}
 
 def load_zones_from_server():
     """Busca as definições de polígonos salvas no servidor local."""
@@ -158,7 +160,7 @@ def run_detector(video_source, model_name="yolov8n.pt", send_telemetry=True):
                 "sectors": sector_results
             }
             try:
-                requests.post(API_URL, json=payload, timeout=0.8)
+                requests.post(API_URL, json=payload, headers=AUTH_HEADERS, timeout=0.8)
             except Exception:
                 pass
 
