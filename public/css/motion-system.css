@@ -223,27 +223,49 @@
   transform: translateY(0);
 }
 
-/* Tipografia cinética — reveal com máscara + blur→foco, reservado para
-   headlines (hero e títulos de seção), não para corpo de texto (seção 06) */
-.js-reveal .kinetic-line {
-  opacity: 0;
-  filter: blur(6px);
-  transform: translateY(14px);
-  clip-path: inset(0 0 12% 0);
-  transition:
-    opacity var(--m-cinematic) var(--ease-out-soft),
-    filter var(--m-cinematic) var(--ease-out-soft),
-    transform var(--m-cinematic) var(--ease-out-soft),
-    clip-path var(--m-cinematic) var(--ease-out-soft);
-  transition-delay: calc(var(--stagger-index, 0) * 90ms);
+/* Tipografia cinética — cada palavra sobe de dentro da própria máscara (spans
+   criados pelo JS), reservado para headlines (hero e títulos de seção). */
+.js-reveal .kinetic-line .kw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* folga para acentos e descendentes não serem cortados pela máscara */
+  padding: 0.12em 0.04em 0.16em;
+  margin: -0.12em -0.04em -0.16em;
 }
 
-.js-reveal .kinetic-line.is-visible {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-  clip-path: inset(0 0 0% 0);
+.js-reveal .kinetic-line .kw-i {
+  display: inline-block;
+  transform: translate3d(0, 108%, 0) rotate(4deg);
+  transform-origin: left bottom;
+  transition: transform 1000ms var(--ease-out-soft);
+  transition-delay: calc(var(--stagger-index, 0) * 90ms + var(--w, 0) * 55ms);
 }
+
+.js-reveal .kinetic-line.is-visible .kw-i {
+  transform: none;
+}
+
+/* Fotos abrem por recorte, como uma cortina, ao entrar na tela. O estado final
+   usa inset negativo para não cortar a sombra do card. */
+.js-reveal .photo-reveal {
+  clip-path: inset(10% 8% 10% 8%);
+  transition: clip-path 1200ms var(--ease-out-soft) 120ms;
+}
+.js-reveal .photo-reveal img {
+  transition: scale 1400ms var(--ease-out-soft) 120ms, transform .6s var(--ease-out-soft);
+}
+.js-reveal .photo-reveal:not(.is-visible) img { scale: 1.15; }
+.js-reveal .photo-reveal.is-visible {
+  clip-path: inset(-40px);
+}
+
+/* Divisores entre seções se desenham a partir do centro. */
+.js-reveal .section-divider {
+  transform: scaleX(0);
+  transition: transform 1400ms var(--ease-out-soft);
+}
+.js-reveal .section-divider.is-visible { transform: scaleX(1); }
 
 /* --------------------------------------------------------------------------
    4. HERO — coreografia de entrada + atmosfera dedicada
@@ -813,10 +835,12 @@
 @media (max-width: 1100px) { .chapter-rail { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
-  .js-reveal .reveal, .js-reveal .reveal-stagger > *, .js-reveal .kinetic-line {
+  .js-reveal .reveal, .js-reveal .reveal-stagger > *, .js-reveal .kinetic-line,
+  .js-reveal .kinetic-line .kw-i, .js-reveal .photo-reveal, .js-reveal .section-divider {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
     clip-path: none !important;
   }
+  .js-reveal .photo-reveal img { scale: none !important; }
 }

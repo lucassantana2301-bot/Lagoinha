@@ -45,6 +45,9 @@
     var solo = document.querySelectorAll('.reveal');
     var groups = document.querySelectorAll('.reveal-stagger');
     var kinetic = document.querySelectorAll('.kinetic-line');
+    // A foto do hero já tem entrada própria (perspectiva do card); as demais abrem por recorte.
+    var photos = document.querySelectorAll('#viewPortal .official-photo:not(.official-hero)');
+    var dividers = document.querySelectorAll('.section-divider');
     if (!solo.length && !groups.length && !kinetic.length) return;
 
     document.documentElement.classList.add('js-reveal');
@@ -52,6 +55,8 @@
     var targets = [];
     solo.forEach(function (el) { targets.push(el); });
     kinetic.forEach(function (el) { targets.push(el); });
+    photos.forEach(function (el) { el.classList.add('photo-reveal'); targets.push(el); });
+    dividers.forEach(function (el) { targets.push(el); });
     groups.forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (child, idx) {
         child.style.setProperty('--stagger-index', idx % 6);
@@ -95,14 +100,53 @@
      primeiro título de cada seção) — sem dividir texto em spans, só troca
      a transição de "fade simples" por "máscara + blur→foco" (seção 06). */
   function initKineticTypography() {
+    var titles = [];
     var heroHeadline = document.querySelector('.hero-headline');
     if (heroHeadline) {
       heroHeadline.classList.remove('reveal');
-      heroHeadline.classList.add('kinetic-line');
+      titles.push(heroHeadline);
     }
-    document.querySelectorAll('.portal-section .section-title').forEach(function (title) {
+    document.querySelectorAll('.portal-section .section-title').forEach(function (title) { titles.push(title); });
+    titles.forEach(function (title) {
       title.classList.add('kinetic-line');
+      if (!reduceMotion) splitWords(title);
     });
+  }
+
+  /* Cada palavra sobe de dentro de uma máscara própria. O texto continua o mesmo
+     (só ganha spans), então leitores de tela e busca não mudam. Elementos com
+     texto em gradiente (background-clip: text) viram uma unidade só: transformar
+     os filhos quebraria o recorte do gradiente. */
+  function splitWords(root) {
+    var index = 0;
+    function wrap(node) {
+      var outer = document.createElement('span');
+      outer.className = 'kw';
+      var inner = document.createElement('span');
+      inner.className = 'kw-i';
+      inner.style.setProperty('--w', index++);
+      outer.appendChild(inner);
+      node.parentNode.insertBefore(outer, node);
+      inner.appendChild(node);
+    }
+    function walk(parent) {
+      Array.prototype.slice.call(parent.childNodes).forEach(function (node) {
+        if (node.nodeType === 3) {
+          node.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            var piece = document.createTextNode(part);
+            parent.insertBefore(piece, node);
+            if (/\S/.test(part)) wrap(piece);
+          });
+          parent.removeChild(node);
+        } else if (node.nodeType === 1 && node.tagName !== 'BR') {
+          var clip = getComputedStyle(node);
+          if ((clip.webkitBackgroundClip || clip.backgroundClip) === 'text') wrap(node);
+          else walk(node);
+        }
+      });
+    }
+    walk(root);
   }
 
   /* ------------------------------------------------------------------------
@@ -501,6 +545,7 @@
 
   onReady(function () {
     safe('tipografia cinética', initKineticTypography);
+    safe('divisores de seção', initSectionDividers);
     safe('reveal', initReveal);
     safe('capítulos/atmosfera', initChapters);
     safe('scroll timeline', initScrollTimeline);
@@ -511,6 +556,5 @@
     safe('transição de view', initViewTransitionCover);
     safe('contador de KPI', initKpiCountUp);
     safe('contadores de métricas', initStatsCounters);
-    safe('divisores de seção', initSectionDividers);
   });
 })();
