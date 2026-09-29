@@ -225,9 +225,14 @@
       state.target = clamp01(-rect.top / Math.max(1, rect.height - vh));
       state.enter = clamp01(1 - rect.top / vh);
       // Desaceleração precisa: a câmera persegue o scroll em vez de colar nele.
-      state.p += (state.target - state.p) * 0.085;
-      state.mx += (state.tmx - state.mx) * 0.06;
-      state.my += (state.tmy - state.my) * 0.06;
+      // Baseada em tempo, para ter o mesmo ritmo a 30 ou 120 fps.
+      var dt = Math.min(0.1, (now - (state.last || now)) / 1000);
+      state.last = now;
+      var follow = 1 - Math.exp(-dt * 5.5);
+      var drift = 1 - Math.exp(-dt * 3.8);
+      state.p += (state.target - state.p) * follow;
+      state.mx += (state.tmx - state.mx) * drift;
+      state.my += (state.tmy - state.my) * drift;
       var p = state.p;
 
       // Antecipação: a primeira palavra só entra quando a cena já ocupa a tela.
@@ -261,6 +266,7 @@
     function startLoop() {
       if (running) return;
       running = true;
+      state.last = 0;
       if (renderer) renderer.resize();
       rafId = window.requestAnimationFrame(frame);
     }
